@@ -67,6 +67,14 @@
             <directory suffix="Test.php">packages/Webkul/AppUrlGuard/tests/Feature</directory>
         </testsuite>
 
+        <testsuite name="DAM Feature Test">
+            <directory suffix="Test.php">packages/Webkul/DAM/tests/Feature</directory>
+        </testsuite>
+
+        <testsuite name="DAM Unit Test">
+            <directory suffix="Test.php">packages/Webkul/DAM/tests/Unit</directory>
+        </testsuite>
+
     </testsuites>
 
     <source>
@@ -79,6 +87,12 @@
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="APP_DEBUG" value="true"/>
+
+        <!-- Pin a clean root URL so route() generates paths that match registered routes,
+             regardless of the APP_URL (which AppUrlGuard may rewrite with a subpath) in .env. -->
+        <env name="APP_URL" value="http://localhost"/>
+
+        <env name="DB_DATABASE" value="git_issue_fix_two_test"/>
 
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="array"/>

@@ -6,6 +6,7 @@ use Webkul\Attribute\Tests\AttributeTestCase;
 use Webkul\Category\Tests\CategoryTestCase;
 use Webkul\Completeness\Tests\CompletenessTestCase;
 use Webkul\Core\Tests\CoreTestCase;
+use Webkul\DAM\Tests\DamTestCase;
 use Webkul\DataGrid\Tests\DataGridTestCase;
 use Webkul\Installer\Tests\UserCreateCommandTestCase;
 use Webkul\Product\Tests\ProductTestCase;
@@ -38,6 +39,7 @@ uses(AttributeTestCase::class)->in('../packages/Webkul/Attribute/tests');
 uses(CategoryTestCase::class)->in('../packages/Webkul/Category/tests');
 uses(CoreTestCase::class)->in('../packages/Webkul/AiAgent/tests');
 uses(AdminTestCase::class)->in('../packages/Webkul/AppUrlGuard/tests');
+uses(DamTestCase::class)->in('../packages/Webkul/DAM/tests');
 
 /*
 |--------------------------------------------------------------------------
