@@ -1,0 +1,1999 @@
+<!DOCTYPE html><html lang="en_US" dir="ltr" class="sf-js-enabled"><head>
+    <title>Sign In</title>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="base-url" content="http://127.0.0.1:8000">
+    <meta http-equiv="content-language" content="en_US">
+
+    
+    <link rel="preload" as="style" href="http://127.0.0.1:8000/themes/admin/default/build/assets/app-D1PsgFsp.css"><link rel="preload" as="style" href="http://127.0.0.1:8000/themes/admin/default/build/assets/app-CLZQJ_Wf.css"><link rel="modulepreload" as="script" href="http://127.0.0.1:8000/themes/admin/default/build/assets/app-CKXjk7dA.js"><link rel="modulepreload" as="script" href="http://127.0.0.1:8000/themes/admin/default/build/assets/vue-BUOLKB8B.js"><link rel="modulepreload" as="script" href="http://127.0.0.1:8000/themes/admin/default/build/assets/vendor-16CZTXoz.js"><link rel="modulepreload" as="script" href="http://127.0.0.1:8000/themes/admin/default/build/assets/veeValidate-CNvQNYvv.js"><link rel="stylesheet" href="http://127.0.0.1:8000/themes/admin/default/build/assets/app-D1PsgFsp.css"><link rel="stylesheet" href="http://127.0.0.1:8000/themes/admin/default/build/assets/app-CLZQJ_Wf.css"><script type="module" src="http://127.0.0.1:8000/themes/admin/default/build/assets/app-CKXjk7dA.js"></script>
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&amp;display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter&amp;display=swap" rel="stylesheet">
+
+            <link type="image/x-icon" href="http://127.0.0.1:8000/themes/admin/default/build/assets/favicon-BLnu31-p.svg" rel="shortcut icon" sizes="16x16">
+    
+    
+    <style>
+        
+    </style>
+
+    <style>
+    .path-hint {
+        border: solid 1px transparent;
+        padding: 1px;
+    }
+
+    .path-hint:hover {
+        border: 1px solid red;
+    }
+
+    .path-hint-tooltip {
+        padding: 0px 10px;
+        position: absolute;
+        background: #000000;
+        z-index: 10000;
+        color: #fff;
+        font-size: 10px;
+    }
+
+    .path-hint-tooltip h4 {
+        margin-top: 5px;
+        margin-bottom: 3px;
+        color: #fff;
+        font-size: 12px;
+    }
+
+    .path-hint-tooltip ul li {
+        margin-bottom: 3px;
+    }
+
+    .main-container-wrapper .product-card .product-image img {
+        max-width: 100%;
+        height: 260px;
+        object-fit: cover;
+    }
+</style>
+<link rel="preload" as="style" href="http://127.0.0.1:8000/themes/aws/build/assets/app-17eb01af.css"><link rel="stylesheet" href="http://127.0.0.1:8000/themes/aws/build/assets/app-17eb01af.css">
+<script id="browser-logger-active">
+(function() {
+    const ENDPOINT = 'http://127.0.0.1:8000/_boost/browser-logs';
+    const logQueue = [];
+    let flushTimeout = null;
+
+    console.log('🔍 Browser logger active (MCP server detected). Posting to: ' + ENDPOINT);
+
+    // Store original console methods
+    const originalConsole = {
+        log: console.log,
+        info: console.info,
+        error: console.error,
+        warn: console.warn,
+        table: console.table
+    };
+
+    // Helper to safely stringify values
+    function safeStringify(obj) {
+        const seen = new WeakSet();
+        return JSON.stringify(obj, (key, value) => {
+            if (typeof value === 'object' && value !== null) {
+                if (seen.has(value)) return '[Circular]';
+                seen.add(value);
+            }
+            if (value instanceof Error) {
+                return {
+                    name: value.name,
+                    message: value.message,
+                    stack: value.stack
+                };
+            }
+            return value;
+        });
+    }
+
+    // Batch and send logs
+    function flushLogs() {
+        if (logQueue.length === 0) return;
+
+        const batch = logQueue.splice(0, logQueue.length);
+
+        fetch(ENDPOINT, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({ logs: batch })
+        }).catch(err => {
+            // Silently fail to avoid infinite loops
+            originalConsole.error('Failed to send logs:', err);
+        });
+    }
+
+    // Debounced flush (100ms)
+    function scheduleFlush() {
+        if (flushTimeout) clearTimeout(flushTimeout);
+        flushTimeout = setTimeout(flushLogs, 100);
+    }
+
+    // Intercept console methods
+    ['log', 'info', 'error', 'warn', 'table'].forEach(method => {
+        console[method] = function(...args) {
+            // Call original method
+            originalConsole[method].apply(console, args);
+
+            // Capture log data
+            try {
+                logQueue.push({
+                    type: method,
+                    timestamp: new Date().toISOString(),
+                    data: args.map(arg => {
+                        try {
+                            return typeof arg === 'object' ? JSON.parse(safeStringify(arg)) : arg;
+                        } catch (e) {
+                            return String(arg);
+                        }
+                    }),
+                    url: window.location.href,
+                    userAgent: navigator.userAgent
+                });
+
+                scheduleFlush();
+            } catch (e) {
+                // Fail silently
+            }
+        };
+    });
+
+    // Global error handlers for uncaught errors
+    const originalOnError = window.onerror;
+    window.onerror = function boostErrorHandler(errorMsg, url, lineNumber, colNumber, error) {
+        try {
+            logQueue.push({
+                type: 'uncaught_error',
+                timestamp: new Date().toISOString(),
+                data: [{
+                    message: errorMsg,
+                    filename: url,
+                    lineno: lineNumber,
+                    colno: colNumber,
+                    error: error ? {
+                        name: error.name,
+                        message: error.message,
+                        stack: error.stack
+                    } : null
+                }],
+                url: window.location.href,
+                userAgent: navigator.userAgent
+            });
+
+            scheduleFlush();
+        } catch (e) {
+            // Fail silently
+        }
+
+        // Call original handler if it exists
+        if (originalOnError && typeof originalOnError === 'function') {
+            return originalOnError(errorMsg, url, lineNumber, colNumber, error);
+        }
+
+        // Let the error continue to propagate
+        return false;
+    }
+    window.addEventListener('error', (event) => {
+        try {
+            logQueue.push({
+                type: 'window_error',
+                timestamp: new Date().toISOString(),
+                data: [{
+                    message: event.message,
+                    filename: event.filename,
+                    lineno: event.lineno,
+                    colno: event.colno,
+                    error: event.error ? {
+                        name: event.error.name,
+                        message: event.error.message,
+                        stack: event.error.stack
+                    } : null
+                }],
+                url: window.location.href,
+                userAgent: navigator.userAgent
+            });
+
+            scheduleFlush();
+        } catch (e) {
+            // Fail silently
+        }
+
+        // Let the error continue to propagate
+        return false;
+    });
+    window.addEventListener('unhandledrejection', (event) => {
+        try {
+            logQueue.push({
+                type: 'error',
+                timestamp: new Date().toISOString(),
+                data: [{
+                    message: 'Unhandled Promise Rejection',
+                    reason: event.reason instanceof Error ? {
+                        name: event.reason.name,
+                        message: event.reason.message,
+                        stack: event.reason.stack
+                    } : event.reason
+                }],
+                url: window.location.href,
+                userAgent: navigator.userAgent
+            });
+
+            scheduleFlush();
+        } catch (e) {
+            // Fail silently
+        }
+
+        // Let the rejection continue to propagate
+        return false;
+    });
+
+    // Flush on page unload
+    window.addEventListener('beforeunload', () => {
+        if (logQueue.length > 0) {
+            navigator.sendBeacon(ENDPOINT, JSON.stringify({ logs: logQueue }));
+        }
+    });
+})();
+</script>
+<link rel="stylesheet" type="text/css" property="stylesheet" href="/_debugbar/assets/stylesheets?v=1776058560" data-turbolinks-eval="false" data-turbo-eval="false"><script src="/_debugbar/assets/javascript?v=1776058560" data-turbolinks-eval="false" data-turbo-eval="false"></script><script data-turbo-eval="false">jQuery.noConflict(true);</script>
+<script> Sfdump = window.Sfdump || (function (doc) { doc.documentElement.classList.add('sf-js-enabled'); var rxEsc = /([.*+?^${}()|\[\]\/\\])/g, idRx = /\bsf-dump-\d+-ref[012]\w+\b/, keyHint = 0 <= navigator.platform.toUpperCase().indexOf('MAC') ? 'Cmd' : 'Ctrl', addEventListener = function (e, n, cb) { e.addEventListener(n, cb, false); }; if (!doc.addEventListener) { addEventListener = function (element, eventName, callback) { element.attachEvent('on' + eventName, function (e) { e.preventDefault = function () {e.returnValue = false;}; e.target = e.srcElement; callback(e); }); }; } function toggle(a, recursive) { var s = a.nextSibling || {}, oldClass = s.className, arrow, newClass; if (/\bsf-dump-compact\b/.test(oldClass)) { arrow = '▼'; newClass = 'sf-dump-expanded'; } else if (/\bsf-dump-expanded\b/.test(oldClass)) { arrow = '▶'; newClass = 'sf-dump-compact'; } else { return false; } if (doc.createEvent && s.dispatchEvent) { var event = doc.createEvent('Event'); event.initEvent('sf-dump-expanded' === newClass ? 'sfbeforedumpexpand' : 'sfbeforedumpcollapse', true, false); s.dispatchEvent(event); } a.lastChild.innerHTML = arrow; s.className = s.className.replace(/\bsf-dump-(compact|expanded)\b/, newClass); if (recursive) { try { a = s.querySelectorAll('.'+oldClass); for (s = 0; s < a.length; ++s) { if (-1 == a[s].className.indexOf(newClass)) { a[s].className = newClass; a[s].previousSibling.lastChild.innerHTML = arrow; } } } catch (e) { } } return true; }; function collapse(a, recursive) { var s = a.nextSibling || {}, oldClass = s.className; if (/\bsf-dump-expanded\b/.test(oldClass)) { toggle(a, recursive); return true; } return false; }; function expand(a, recursive) { var s = a.nextSibling || {}, oldClass = s.className; if (/\bsf-dump-compact\b/.test(oldClass)) { toggle(a, recursive); return true; } return false; }; function collapseAll(root) { var a = root.querySelector('a.sf-dump-toggle'); if (a) { collapse(a, true); expand(a); return true; } return false; } function reveal(node) { var previous, parents = []; while ((node = node.parentNode || {}) && (previous = node.previousSibling) && 'A' === previous.tagName) { parents.push(previous); } if (0 !== parents.length) { parents.forEach(function (parent) { expand(parent); }); return true; } return false; } function highlight(root, activeNode, nodes) { resetHighlightedNodes(root); Array.from(nodes||[]).forEach(function (node) { if (!/\bsf-dump-highlight\b/.test(node.className)) { node.className = node.className + ' sf-dump-highlight'; } }); if (!/\bsf-dump-highlight-active\b/.test(activeNode.className)) { activeNode.className = activeNode.className + ' sf-dump-highlight-active'; } } function resetHighlightedNodes(root) { Array.from(root.querySelectorAll('.sf-dump-str, .sf-dump-key, .sf-dump-public, .sf-dump-protected, .sf-dump-private')).forEach(function (strNode) { strNode.className = strNode.className.replace(/\bsf-dump-highlight\b/, ''); strNode.className = strNode.className.replace(/\bsf-dump-highlight-active\b/, ''); }); } return function (root, x) { root = doc.getElementById(root); var indentRx = new RegExp('^('+(root.getAttribute('data-indent-pad') || ' ').replace(rxEsc, '\\$1')+')+', 'm'), options = {"maxDepth":1,"maxStringLength":160,"fileLinkFormat":false}, elt = root.getElementsByTagName('A'), len = elt.length, i = 0, s, h, t = []; while (i < len) t.push(elt[i++]); for (i in x) { options[i] = x[i]; } function a(e, f) { addEventListener(root, e, function (e, n) { if ('A' == e.target.tagName) { f(e.target, e); } else if ('A' == e.target.parentNode.tagName) { f(e.target.parentNode, e); } else { n = /\bsf-dump-ellipsis\b/.test(e.target.className) ? e.target.parentNode : e.target; if ((n = n.nextElementSibling) && 'A' == n.tagName) { if (!/\bsf-dump-toggle\b/.test(n.className)) { n = n.nextElementSibling || n; } f(n, e, true); } } }); }; function isCtrlKey(e) { return e.ctrlKey || e.metaKey; } function xpathString(str) { var parts = str.match(/[^'"]+|['"]/g).map(function (part) { if ("'" == part) { return '"\'"'; } if ('"' == part) { return "'\"'"; } return "'" + part + "'"; }); return "concat(" + parts.join(",") + ", '')"; } function xpathHasClass(className) { return "contains(concat(' ', normalize-space(@class), ' '), ' " + className +" ')"; } a('mouseover', function (a, e, c) { if (c) { e.target.style.cursor = "pointer"; } }); a('click', function (a, e, c) { if (/\bsf-dump-toggle\b/.test(a.className)) { e.preventDefault(); if (!toggle(a, isCtrlKey(e))) { var r = doc.getElementById(a.getAttribute('href').slice(1)), s = r.previousSibling, f = r.parentNode, t = a.parentNode; t.replaceChild(r, a); f.replaceChild(a, s); t.insertBefore(s, r); f = f.firstChild.nodeValue.match(indentRx); t = t.firstChild.nodeValue.match(indentRx); if (f && t && f[0] !== t[0]) { r.innerHTML = r.innerHTML.replace(new RegExp('^'+f[0].replace(rxEsc, '\\$1'), 'mg'), t[0]); } if (/\bsf-dump-compact\b/.test(r.className)) { toggle(s, isCtrlKey(e)); } } if (c) { } else if (doc.getSelection) { try { doc.getSelection().removeAllRanges(); } catch (e) { doc.getSelection().empty(); } } else { doc.selection.empty(); } } else if (/\bsf-dump-str-toggle\b/.test(a.className)) { e.preventDefault(); e = a.parentNode.parentNode; e.className = e.className.replace(/\bsf-dump-str-(expand|collapse)\b/, a.parentNode.className); } }); elt = root.getElementsByTagName('SAMP'); len = elt.length; i = 0; while (i < len) t.push(elt[i++]); len = t.length; for (i = 0; i < len; ++i) { elt = t[i]; if ('SAMP' == elt.tagName) { a = elt.previousSibling || {}; if ('A' != a.tagName) { a = doc.createElement('A'); a.className = 'sf-dump-ref'; elt.parentNode.insertBefore(a, elt); } else { a.innerHTML += ' '; } a.title = (a.title ? a.title+'\n[' : '[')+keyHint+'+click] Expand all children'; a.innerHTML += elt.className == 'sf-dump-compact' ? '<span>▶</span>' : '<span>▼</span>'; a.className += ' sf-dump-toggle'; x = 1; if ('sf-dump' != elt.parentNode.className) { x += elt.parentNode.getAttribute('data-depth')/1; } } else if (/\bsf-dump-ref\b/.test(elt.className) && (a = elt.getAttribute('href'))) { a = a.slice(1); elt.className += ' sf-dump-hover'; elt.className += ' '+a; if (/[\[{]$/.test(elt.previousSibling.nodeValue)) { a = a != elt.nextSibling.id && doc.getElementById(a); try { s = a.nextSibling; elt.appendChild(a); s.parentNode.insertBefore(a, s); if (/^[@#]/.test(elt.innerHTML)) { elt.innerHTML += ' <span>▶</span>'; } else { elt.innerHTML = '<span>▶</span>'; elt.className = 'sf-dump-ref'; } elt.className += ' sf-dump-toggle'; } catch (e) { if ('&' == elt.innerHTML.charAt(0)) { elt.innerHTML = '…'; elt.className = 'sf-dump-ref'; } } } } } if (doc.evaluate && Array.from && root.children.length > 1) { root.setAttribute('tabindex', 0); SearchState = function () { this.nodes = []; this.idx = 0; }; SearchState.prototype = { next: function () { if (this.isEmpty()) { return this.current(); } this.idx = this.idx < (this.nodes.length - 1) ? this.idx + 1 : 0; return this.current(); }, previous: function () { if (this.isEmpty()) { return this.current(); } this.idx = this.idx > 0 ? this.idx - 1 : (this.nodes.length - 1); return this.current(); }, isEmpty: function () { return 0 === this.count(); }, current: function () { if (this.isEmpty()) { return null; } return this.nodes[this.idx]; }, reset: function () { this.nodes = []; this.idx = 0; }, count: function () { return this.nodes.length; }, }; function showCurrent(state) { var currentNode = state.current(), currentRect, searchRect; if (currentNode) { reveal(currentNode); highlight(root, currentNode, state.nodes); if ('scrollIntoView' in currentNode) { currentNode.scrollIntoView(true); currentRect = currentNode.getBoundingClientRect(); searchRect = search.getBoundingClientRect(); if (currentRect.top < (searchRect.top + searchRect.height)) { window.scrollBy(0, -(searchRect.top + searchRect.height + 5)); } } } counter.textContent = (state.isEmpty() ? 0 : state.idx + 1) + ' of ' + state.count(); } var search = doc.createElement('div'); search.className = 'sf-dump-search-wrapper sf-dump-search-hidden'; search.innerHTML = ' <input type="text" class="sf-dump-search-input"> <span class="sf-dump-search-count">0 of 0<\/span> <button type="button" class="sf-dump-search-input-previous" tabindex="-1"> <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1683 1331l-166 165q-19 19-45 19t-45-19L896 965l-531 531q-19 19-45 19t-45-19l-166-165q-19-19-19-45.5t19-45.5l742-741q19-19 45-19t45 19l742 741q19 19 19 45.5t-19 45.5z"\/><\/svg> <\/button> <button type="button" class="sf-dump-search-input-next" tabindex="-1"> <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1683 808l-742 741q-19 19-45 19t-45-19L109 808q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"\/><\/svg> <\/button> '; root.insertBefore(search, root.firstChild); var state = new SearchState(); var searchInput = search.querySelector('.sf-dump-search-input'); var counter = search.querySelector('.sf-dump-search-count'); var searchInputTimer = 0; var previousSearchQuery = ''; addEventListener(searchInput, 'keyup', function (e) { var searchQuery = e.target.value; /* Don't perform anything if the pressed key didn't change the query */ if (searchQuery === previousSearchQuery) { return; } previousSearchQuery = searchQuery; clearTimeout(searchInputTimer); searchInputTimer = setTimeout(function () { state.reset(); collapseAll(root); resetHighlightedNodes(root); if ('' === searchQuery) { counter.textContent = '0 of 0'; return; } var classMatches = [ "sf-dump-str", "sf-dump-key", "sf-dump-public", "sf-dump-protected", "sf-dump-private", ].map(xpathHasClass).join(' or '); var xpathResult = doc.evaluate('.//span[' + classMatches + '][contains(translate(child::text(), ' + xpathString(searchQuery.toUpperCase()) + ', ' + xpathString(searchQuery.toLowerCase()) + '), ' + xpathString(searchQuery.toLowerCase()) + ')]', root, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null); while (node = xpathResult.iterateNext()) state.nodes.push(node); showCurrent(state); }, 400); }); Array.from(search.querySelectorAll('.sf-dump-search-input-next, .sf-dump-search-input-previous')).forEach(function (btn) { addEventListener(btn, 'click', function (e) { e.preventDefault(); -1 !== e.target.className.indexOf('next') ? state.next() : state.previous(); searchInput.focus(); collapseAll(root); showCurrent(state); }) }); addEventListener(root, 'keydown', function (e) { var isSearchActive = !/\bsf-dump-search-hidden\b/.test(search.className); if ((114 === e.keyCode && !isSearchActive) || (isCtrlKey(e) && 70 === e.keyCode)) { /* F3 or CMD/CTRL + F */ if (70 === e.keyCode && document.activeElement === searchInput) { /* * If CMD/CTRL + F is hit while having focus on search input, * the user probably meant to trigger browser search instead. * Let the browser execute its behavior: */ return; } e.preventDefault(); search.className = search.className.replace(/\bsf-dump-search-hidden\b/, ''); searchInput.focus(); } else if (isSearchActive) { if (27 === e.keyCode) { /* ESC key */ search.className += ' sf-dump-search-hidden'; e.preventDefault(); resetHighlightedNodes(root); searchInput.value = ''; } else if ( (isCtrlKey(e) && 71 === e.keyCode) /* CMD/CTRL + G */ || 13 === e.keyCode /* Enter */ || 114 === e.keyCode /* F3 */ ) { e.preventDefault(); e.shiftKey ? state.previous() : state.next(); collapseAll(root); showCurrent(state); } } }); } if (0 >= options.maxStringLength) { return; } try { elt = root.querySelectorAll('.sf-dump-str'); len = elt.length; i = 0; t = []; while (i < len) t.push(elt[i++]); len = t.length; for (i = 0; i < len; ++i) { elt = t[i]; s = elt.innerText || elt.textContent; x = s.length - options.maxStringLength; if (0 < x) { h = elt.innerHTML; elt[elt.innerText ? 'innerText' : 'textContent'] = s.substring(0, options.maxStringLength); elt.className += ' sf-dump-str-collapse'; elt.innerHTML = '<span class=sf-dump-str-collapse>'+h+'<a class="sf-dump-ref sf-dump-str-toggle" title="Collapse"> ◀</a></span>'+ '<span class=sf-dump-str-expand>'+elt.innerHTML+'<a class="sf-dump-ref sf-dump-str-toggle" title="'+x+' remaining characters"> ▶</a></span>'; } } } catch (e) { } }; })(document); </script><style> .sf-js-enabled .phpdebugbar pre.sf-dump .sf-dump-compact, .sf-js-enabled .sf-dump-str-collapse .sf-dump-str-collapse, .sf-js-enabled .sf-dump-str-expand .sf-dump-str-expand { display: none; } .sf-dump-hover:hover { background-color: #B729D9; color: #FFF !important; border-radius: 2px; } .phpdebugbar pre.sf-dump { display: block; white-space: pre; padding: 5px; overflow: initial !important; } .phpdebugbar pre.sf-dump:after { content: ""; visibility: hidden; display: block; height: 0; clear: both; } .phpdebugbar pre.sf-dump .sf-dump-ellipsization { display: inline-flex; } .phpdebugbar pre.sf-dump a { text-decoration: none; cursor: pointer; border: 0; outline: none; color: inherit; } .phpdebugbar pre.sf-dump img { max-width: 50em; max-height: 50em; margin: .5em 0 0 0; padding: 0; background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAAAAAA6mKC9AAAAHUlEQVQY02O8zAABilCaiQEN0EeA8QuUcX9g3QEAAjcC5piyhyEAAAAASUVORK5CYII=) #D3D3D3; } .phpdebugbar pre.sf-dump .sf-dump-ellipsis { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; } .phpdebugbar pre.sf-dump .sf-dump-ellipsis-tail { flex-shrink: 0; } .phpdebugbar pre.sf-dump code { display:inline; padding:0; background:none; } .sf-dump-public.sf-dump-highlight, .sf-dump-protected.sf-dump-highlight, .sf-dump-private.sf-dump-highlight, .sf-dump-str.sf-dump-highlight, .sf-dump-key.sf-dump-highlight { background: rgba(111, 172, 204, 0.3); border: 1px solid #7DA0B1; border-radius: 3px; } .sf-dump-public.sf-dump-highlight-active, .sf-dump-protected.sf-dump-highlight-active, .sf-dump-private.sf-dump-highlight-active, .sf-dump-str.sf-dump-highlight-active, .sf-dump-key.sf-dump-highlight-active { background: rgba(253, 175, 0, 0.4); border: 1px solid #ffa500; border-radius: 3px; } .phpdebugbar pre.sf-dump .sf-dump-search-hidden { display: none !important; } .phpdebugbar pre.sf-dump .sf-dump-search-wrapper { font-size: 0; white-space: nowrap; margin-bottom: 5px; display: flex; position: -webkit-sticky; position: sticky; top: 5px; } .phpdebugbar pre.sf-dump .sf-dump-search-wrapper > * { vertical-align: top; box-sizing: border-box; height: 21px; font-weight: normal; border-radius: 0; background: #FFF; color: #757575; border: 1px solid #BBB; } .phpdebugbar pre.sf-dump .sf-dump-search-wrapper > input.sf-dump-search-input { padding: 3px; height: 21px; font-size: 12px; border-right: none; border-top-left-radius: 3px; border-bottom-left-radius: 3px; color: #000; min-width: 15px; width: 100%; } .phpdebugbar pre.sf-dump .sf-dump-search-wrapper > .sf-dump-search-input-next, .phpdebugbar pre.sf-dump .sf-dump-search-wrapper > .sf-dump-search-input-previous { background: #F2F2F2; outline: none; border-left: none; font-size: 0; line-height: 0; } .phpdebugbar pre.sf-dump .sf-dump-search-wrapper > .sf-dump-search-input-next { border-top-right-radius: 3px; border-bottom-right-radius: 3px; } .phpdebugbar pre.sf-dump .sf-dump-search-wrapper > .sf-dump-search-input-next > svg, .phpdebugbar pre.sf-dump .sf-dump-search-wrapper > .sf-dump-search-input-previous > svg { pointer-events: none; width: 12px; height: 12px; } .phpdebugbar pre.sf-dump .sf-dump-search-wrapper > .sf-dump-search-count { display: inline-block; padding: 0 5px; margin: 0; border-left: none; line-height: 21px; font-size: 12px; }.phpdebugbar pre.sf-dump, .phpdebugbar pre.sf-dump .sf-dump-default{word-wrap: break-word; white-space: pre-wrap; word-break: normal}.phpdebugbar pre.sf-dump .sf-dump-num{font-weight:bold; color:#1299DA}.phpdebugbar pre.sf-dump .sf-dump-const{font-weight:bold}.phpdebugbar pre.sf-dump .sf-dump-str{font-weight:bold; color:#3A9B26}.phpdebugbar pre.sf-dump .sf-dump-note{color:#1299DA}.phpdebugbar pre.sf-dump .sf-dump-ref{color:#7B7B7B}.phpdebugbar pre.sf-dump .sf-dump-public{color:#000000}.phpdebugbar pre.sf-dump .sf-dump-protected{color:#000000}.phpdebugbar pre.sf-dump .sf-dump-private{color:#000000}.phpdebugbar pre.sf-dump .sf-dump-meta{color:#B729D9}.phpdebugbar pre.sf-dump .sf-dump-key{color:#3A9B26}.phpdebugbar pre.sf-dump .sf-dump-index{color:#1299DA}.phpdebugbar pre.sf-dump .sf-dump-ellipsis{color:#A0A000}.phpdebugbar pre.sf-dump .sf-dump-virtual{font-style:italic}.phpdebugbar pre.sf-dump .sf-dump-ns{user-select:none;}.phpdebugbar pre.sf-dump .sf-dump-ellipsis-note{color:#1299DA}.phpdebugbar[data-theme='dark'] pre.sf-dump, pre.sf-dump .sf-dump-default{background-color:#18171B; color:#FF8400; line-height:1.2em; font:12px Menlo, Monaco, Consolas, monospace; word-wrap: break-word; white-space: pre-wrap; position:relative; z-index:99999; word-break: break-all}.phpdebugbar[data-theme='dark'] pre.sf-dump .sf-dump-num{font-weight:bold; color:#1299DA}.phpdebugbar[data-theme='dark'] pre.sf-dump .sf-dump-const{font-weight:bold}.phpdebugbar[data-theme='dark'] pre.sf-dump .sf-dump-virtual{font-style:italic}.phpdebugbar[data-theme='dark'] pre.sf-dump .sf-dump-str{font-weight:bold; color:#56DB3A}.phpdebugbar[data-theme='dark'] pre.sf-dump .sf-dump-note{color:#1299DA}.phpdebugbar[data-theme='dark'] pre.sf-dump .sf-dump-ref{color:#A0A0A0}.phpdebugbar[data-theme='dark'] pre.sf-dump .sf-dump-public{color:#FFFFFF}.phpdebugbar[data-theme='dark'] pre.sf-dump .sf-dump-protected{color:#FFFFFF}.phpdebugbar[data-theme='dark'] pre.sf-dump .sf-dump-private{color:#FFFFFF}.phpdebugbar[data-theme='dark'] pre.sf-dump .sf-dump-meta{color:#B729D9}.phpdebugbar[data-theme='dark'] pre.sf-dump .sf-dump-key{color:#56DB3A}.phpdebugbar[data-theme='dark'] pre.sf-dump .sf-dump-index{color:#1299DA}.phpdebugbar[data-theme='dark'] pre.sf-dump .sf-dump-ellipsis{color:#FF8400}.phpdebugbar[data-theme='dark'] pre.sf-dump .sf-dump-ns{user-select:none;}.phpdebugbar[data-theme='dark'] pre.sf-dump .sf-dump-ellipsis-note{color:#1299DA}</style>
+</head>
+
+<body style="margin-bottom: 32px;">
+    
+
+    <div id="app">
+        <!-- Flash Message Blade Component -->
+        <v-flash-group ref="flashes"></v-flash-group>
+
+
+        
+
+                <!-- Page Content Blade Component -->
+                <!-- Page Title -->
+     
+    <div class="flex justify-center items-center h-[100vh]">
+        <div class="flex flex-col gap-5 items-center">
+            <!-- Logo -->
+                            <img class="w-max" src="http://127.0.0.1:8000/themes/admin/default/build/assets/logo-DovYQi-i.svg" alt="UnoPim">
+            
+            <div class="flex flex-col min-w-[300px] bg-white dark:bg-cherry-800 rounded-md box-shadow">
+                <!-- Login Form -->
+                <!--
+    If a component has the `as` attribute, it indicates that it uses
+    the ajaxified form or some customized slot form.
+-->
+    
+    
+    <v-form method="POST" :initial-errors="[]" v-slot="{ meta, errors, setValues }" @invalid-submit="onInvalidSubmit" action="http://127.0.0.1:8000/admin/login">
+                    <input type="hidden" name="_token" value="W6fUy1nUqlYzLkO5roBEMrVlWO9hdqlgMEy6xUd9" autocomplete="off">        
+        
+        <p class="p-4 text-xl text-gray-800 dark:text-slate-50 font-bold">
+                        Sign In                    </p>
+
+                    <div class="p-4 border-y dark:border-gray-800">
+                        <!-- Email -->
+                        <div class="mb-4">
+    <label class="flex gap-1 items-center mb-1.5 text-xs text-gray-800 dark:text-white font-medium required">
+    Email Address
+
+</label>
+
+                            <v-field v-slot="{ field, errors }" rules="required|email" label="Email Address" name="email">
+            <input type="email" name="email" v-bind="field" :class="[errors.length ? 'border !border-red-600 hover:border-red-600' : '']" class="w-full py-2.5 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 dark:hover:border-gray-400 focus:border-gray-400 dark:focus:border-gray-400 dark:bg-cherry-900 dark:hover:border-slate-300 dark:border-gray-600 w-[254px] max-w-full" id="email" placeholder="Email Address">
+        </v-field>
+
+        
+
+                            <v-error-message name="email" v-slot="{ message }">
+        <p class="mt-1 text-red-600 text-xs italic" v-text="message">
+        </p>
+    </v-error-message>
+</div>
+
+                        <!-- Password -->
+                        <div class="mb-4 relative w-full">
+    <label class="flex gap-1 items-center mb-1.5 text-xs text-gray-800 dark:text-white font-medium required">
+    Password
+
+</label>
+
+                            <v-field v-slot="{ field, errors }" rules="required|min:6" label="Password" name="password">
+            <input type="password" name="password" v-bind="field" :class="[errors.length ? 'border !border-red-600 hover:border-red-600' : '']" class="w-full py-2.5 px-3 border rounded-md text-sm text-gray-600 dark:text-gray-300 transition-all hover:border-gray-400 dark:hover:border-gray-400 focus:border-gray-400 dark:focus:border-gray-400 dark:bg-cherry-900 dark:hover:border-slate-300 dark:border-gray-600 w-[254px] max-w-full ltr:pr-10 rtl:pl-10" id="password" placeholder="Password">
+        </v-field>
+
+        
+
+                            <span class="text-2xl cursor-pointer absolute top-[42px] -translate-y-2/4 ltr:right-2 rtl:left-2 icon-view" onclick="switchVisibility()" id="visibilityIcon" role="presentation" tabindex="0">
+                            </span>
+
+                            <v-error-message name="password" v-slot="{ message }">
+        <p class="mt-1 text-red-600 text-xs italic" v-text="message">
+        </p>
+    </v-error-message>
+</div>
+                    </div>
+
+                    <div class="flex justify-between items-center p-4">
+                        <!-- Forgot Password Link -->
+                        <a class="text-xs text-violet-700 font-semibold leading-6 cursor-pointer" href="http://127.0.0.1:8000/admin/forget-password">
+                            Forget Password ?                        </a>
+
+                        <!-- Submit Button -->
+                        <button class="primary-button" aria-label="Sign In">
+                            Sign In                        </button>
+                    </div>
+    </v-form>
+            </div>
+
+            <!-- Powered By -->
+            <div class="absolute bottom-6 inset-x-0 text-xs text-gray-800 dark:text-white font-medium flex flex-col items-center">
+                <div>
+                    Powered by <a class="text-violet-700 hover:underline" href="https://unopim.com/" target="_blank">Unopim</a>,                </div>
+                <div>
+                    <div class="text-xs text-gray-800 dark:text-white font-medium">
+                        An open-source project by <a class="text-violet-700 hover:underline" href="https://webkul.com/" target="_blank">Webkul</a>.                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        
+    </div>
+
+    
+
+        <script type="text/x-template" id="v-modal-template">
+        <div>
+            <div @click="toggle">
+                <slot name="toggle">
+                </slot>
+            </div>
+
+            <transition
+                tag="div"
+                name="modal-overlay"
+                enter-class="ease-out duration-300"
+                enter-from-class="opacity-0"
+                enter-to-class="opacity-100"
+                leave-class="ease-in duration-200"
+                leave-from-class="opacity-100"
+                leave-to-class="opacity-0"
+            >
+                <div
+                    class="fixed inset-0 bg-gray-500 bg-opacity-50 transition-opacity z-[10001]"
+                    v-show="isOpen"
+                ></div>
+            </transition>
+
+            <transition
+                tag="div"
+                name="modal-content"
+                enter-class="ease-out duration-300"
+                enter-from-class="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
+                enter-to-class="opacity-100 translate-y-0 md:scale-100"
+                leave-class="ease-in duration-200"
+                leave-from-class="opacity-100 translate-y-0 md:scale-100"
+                leave-to-class="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
+            >
+                <div
+                    class="fixed inset-0 z-[10002] transform transition overflow-y-auto"
+                    v-if="isOpen"
+                >
+                    <div class="flex min-h-full items-end justify-center p-4 sm:items-center sm:p-0">
+                        <div
+                            ref="modalContent"
+                            class="w-full max-h-[96%] z-[999] absolute ltr:left-1/2 rtl:right-1/2 top-1/2 rounded-lg bg-white dark:bg-gray-900 box-shadow max-md:w-[90%] ltr:-translate-x-1/2 rtl:translate-x-1/2 -translate-y-1/2"
+                            :class="[modalSize, { 'overflow-y-auto': isOverflowing, 'overflow-hidden': clip }]"
+                        >
+                            <!-- Header Slot -->
+                            <slot
+                                name="header"
+                                :toggle="toggle"
+                                :isOpen="isOpen"
+                            >
+                            </slot>
+
+                            <!-- Content Slot -->
+                            <slot name="content"></slot>
+                            
+                            <!-- Footer Slot -->
+                            <slot name="footer"></slot>
+                        </div>
+                    </div>
+                </div>
+            </transition>
+        </div>
+    </script>
+
+    <script type="module">
+        app.component('v-modal', {
+            template: '#v-modal-template',
+
+            props: ['isActive', 'type', 'clip'],
+
+            data() {
+                return {
+                    isOpen: this.isActive,
+                    isOverflowing: false,
+                    modalType: this.type,
+                    resizeObserver: null,
+                    mutationObserver: null,
+                    sizeMap: {
+                        small: "max-w-[400px]",
+                        medium: "max-w-[568px]",
+                        large: "max-w-[900px]",
+                        full: "max-w-[calc(100vw-100px)]"
+                    }
+                };
+            },
+
+            computed: {
+                modalSize() {
+                    return this.sizeMap[this.modalType] || this.sizeMap.medium; // Default to medium
+                }
+            },
+
+            mounted() {
+                this.$emitter.on('modal-size-change', (size) => {
+                    this.modalType = size;
+
+                    this.$nextTick(() => {
+                        this.checkOverflow();
+                    });
+                });
+
+                this._onWindowResize = () => {
+                    if (this.isOpen) {
+                        this.checkOverflow();
+                    }
+                };
+
+                window.addEventListener('resize', this._onWindowResize);
+                window.addEventListener('orientationchange', this._onWindowResize);
+            },
+
+            beforeUnmount() {
+                this.cleanupObservers();
+
+                if (this._onWindowResize) {
+                    window.removeEventListener('resize', this._onWindowResize);
+                    window.removeEventListener('orientationchange', this._onWindowResize);
+                }
+            },
+
+            beforeDestroy() {
+                this.cleanupObservers();
+
+                if (this._onWindowResize) {
+                    window.removeEventListener('resize', this._onWindowResize);
+                    window.removeEventListener('orientationchange', this._onWindowResize);
+                }
+            },
+
+            methods: {
+                toggle() {
+                    this.isOpen = ! this.isOpen;
+
+                    if (this.isOpen) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow ='scroll';
+                    }
+
+                    this.$emit('toggle', { isActive: this.isOpen });
+
+                    if (this.isOpen) {
+                        this.$nextTick(() => {
+                            this.checkOverflow();
+                            this.observeContentChanges();
+                        });
+                    } else {
+                        this.cleanupObservers();
+                    }
+                },
+
+                open() {
+                    this.isOpen = true;
+
+                    document.body.style.overflow = 'hidden';
+
+                    this.$emit('open', { isActive: this.isOpen });
+
+                    this.$nextTick(() => {
+                        this.checkOverflow();
+                        this.observeContentChanges();
+                    });
+                },
+
+                close() {
+                    this.isOpen = false;
+
+                    document.body.style.overflow = 'auto';
+
+                    this.cleanupObservers();
+
+                    this.$emit('close', { isActive: this.isOpen });
+                },
+
+                checkOverflow() {
+                    const el = this.$refs.modalContent;
+
+                    if (el) {
+                        this.isOverflowing = el.scrollHeight > window.innerHeight * 0.96;
+                    }
+                },
+
+                observeContentChanges() {
+                    const el = this.$refs.modalContent;
+
+                    if (! el) {
+                        return;
+                    }
+
+                    this.cleanupObservers();
+
+                    if (window.ResizeObserver) {
+                        this.resizeObserver = new ResizeObserver(() => {
+                            this.checkOverflow();
+                        });
+
+                        this.resizeObserver.observe(el);
+                    }
+
+                    this.mutationObserver = new MutationObserver(() => {
+                        this.checkOverflow();
+                    });
+
+                    this.mutationObserver.observe(el, {
+                        childList: true,
+                        subtree: true,
+                        characterData: true,
+                    });
+                },
+
+                cleanupObservers() {
+                    if (this.resizeObserver) {
+                        this.resizeObserver.disconnect();
+                        this.resizeObserver = null;
+                    }
+
+                    if (this.mutationObserver) {
+                        this.mutationObserver.disconnect();
+                        this.mutationObserver = null;
+                    }
+                },
+            }
+        });
+    </script>
+    <script type="text/x-template" id="v-flash-group-template">
+        <transition-group
+            tag='div'
+            name="flash-group"
+            enter-from-class="ltr:translate-x-full rtl:-translate-x-full"
+            enter-active-class="transform transition ease-in-out duration-200"
+            enter-to-class="ltr:translate-x-0 rtl:-translate-x-0"
+            leave-from-class="ltr:translate-x-0 rtl:-translate-x-0"
+            leave-active-class="transform transition ease-in-out duration-200"
+            leave-to-class="ltr:translate-x-full rtl:-translate-x-full"
+            class='grid gap-2.5 fixed top-5 ltr:right-5 rtl:left-5 z-[10003] justify-items-end'
+        >
+            <v-flash-item
+    v-for='flash in flashes'
+    :key='flash.uid'
+    :flash="flash"
+    @onRemove="remove($event)"
+>
+</v-flash-item>
+
+        </transition-group>
+    </script>
+
+    <script type="module">
+        app.component('v-flash-group', {
+            template: '#v-flash-group-template',
+
+            data() {
+                return {
+                    uid: 0,
+
+                    flashes: []
+                }
+            },
+
+            created() {
+                                                                                                                                                                
+                this.registerGlobalEvents();
+            },
+
+            methods: {
+                add(flash) {
+                    flash.uid = this.uid++;
+
+                    this.flashes.push(flash);
+                },
+
+                remove(flash) {
+                    let index = this.flashes.indexOf(flash);
+
+                    this.flashes.splice(index, 1);
+                },
+
+                registerGlobalEvents() {
+                    this.$emitter.on('add-flash', this.add);
+                },
+            }
+        });
+    </script>
+    <script type="text/x-template" id="v-checkbox-handler-template">        
+    </script>
+
+    <script type="module">
+        app.component('v-checkbox-handler', {
+            template: '#v-checkbox-handler-template',
+
+            props: ['field', 'checked'],
+
+            mounted() {
+                if (this.checked == '') {
+                    return;
+                }
+
+                this.field.checked = true;
+
+                this.field.onChange();
+            },
+        });
+
+    </script>
+
+    <script type="text/x-template" id="v-select-handler-template">
+        <div>
+            <v-multiselect
+                :track-by="trackBy ?? 'id'"
+                :label="labelBy ?? 'label'"
+                :options="formattedOptions"
+                :preserve-search="false"
+                :searchable="true"
+                :placeholder="placeholder"
+                :close-on-select="true"
+                :clear-on-select="true"
+                :show-no-results="true"
+                :hide-selected="false"
+                :disabled="disabled ?? false"
+                :name="name"
+                v-model="selectedValue"
+                v-bind="field"
+                @select="selectOption"
+                @remove="removeOption"
+            >
+
+            </v-multiselect>   
+            <input
+                v-model="selectedOption"
+                v-validate="'required'"
+                :name="name"
+                type="hidden"
+            >
+        </div>
+         
+    </script>
+
+    <script type="module">
+        app.component('v-select-handler', {
+            template: '#v-select-handler-template',
+
+            props: {
+                trackBy: {
+                    type: String,
+                    default: 'id'
+                },
+                labelBy: {
+                    type: String,
+                    default: 'label'
+                },
+                options: Array,
+                label: String,
+                name: String,
+                value: String,
+                field: Array,
+                placeholder: String,
+                disabled: Boolean
+            },
+            
+            data() {
+                const parsed = this.parseValue();
+                return {
+                    selectedValue: parsed != null ? this.parseOptions().find(option => String(option[this.trackBy]) === String(parsed)) : null,
+                }
+            },
+
+            computed: {
+                formattedOptions() {
+                    return this.parseOptions();
+                },
+                selectedOption() {
+                    return this.selectedValue instanceof Object ? this.selectedValue[this.trackBy] : null;
+                }
+            },
+
+            watch: {
+                selectedValue(newValue) {
+                    if (! (newValue instanceof Object)) {
+                        this.$emit('input', '');
+
+                        return;
+                    }
+
+                    this.$emit('input', JSON.stringify(newValue));
+                },
+            },
+
+            methods: {
+                parseOptions() {
+                    try {
+                        return JSON.parse(this.options);
+                    } catch (error) {
+                        if (this.options !== null && Array.isArray(this.options)) {
+                            return this.options;
+                        }
+                        
+                        console.error('Error parsing options JSON:', error);
+
+                        return [];
+                    }
+                },
+                parseValue() {
+                    try {
+                        return this.value ? JSON.parse(this.value) : null;
+                    } catch (error) {
+                        return this.value;
+                    }
+                },
+                selectOption(newValue) {
+                    this.$emit('select-option', {
+                        target: {
+                            value: newValue
+                        }
+                    });
+                },
+                removeOption(removeValue) {
+                    this.$emit('remove-option', {
+                        target: {
+                            value: removeValue
+                        }
+                    });
+                },
+            }
+        });
+    </script>
+
+    <script type="text/x-template" id="v-multiselect-handler-template">
+        <div>
+            <v-multiselect
+                :track-by="trackBy"
+                :label="labelBy"
+                :options="formattedOptions"
+                :preserve-search="false"
+                :multiple="true"
+                :searchable="true"
+                :placeholder="placeholder"
+                :close-on-select="onselect"
+                :clear-on-select="true"
+                :show-no-results="true"
+                :hide-selected="true"
+                :disabled="disabled"
+                :name="name"
+                v-model="selectedValue"
+                v-bind="field"
+                @select="selectOption"
+                @remove="removeOption"
+            >
+
+            </v-multiselect>   
+            <input
+                v-model="selectedOption"
+                v-validate="'required'"
+                :name="name"
+                type="hidden"
+            >
+        </div>
+    </script>
+
+    <script type="module">
+        app.component('v-multiselect-handler', {
+            template: '#v-multiselect-handler-template',
+
+            props: {
+                trackBy: {
+                    type: String,
+                    default: 'id'
+                },
+                labelBy: {
+                    type: String,
+                    default: 'label'
+                },
+                options: Array,
+                label: String,
+                name: String,
+                value: String,
+                field: Array,
+                placeholder: String,
+                onselect: {
+                    default: true
+                },
+                disabled: {
+                    type: Boolean,
+                    default: false
+                }
+            },
+            
+            data() {
+                return {
+                    selectedValue: this.parseValue() ? this.parseOptions().filter(option =>  this.parseValue() instanceof Array && this.parseValue()?.some(valueItem => option[this.trackBy] === valueItem)) : [],
+                }
+            },
+
+            computed: {
+                formattedOptions() {
+                    return this.parseOptions();
+                },
+                selectedOption() {
+                    let selectedOptions = [];
+
+                    this.selectedValue instanceof Array ? this.selectedValue.forEach((item) => {
+                        selectedOptions.push(item[this.trackBy]);
+                    }) : null;
+
+                    return selectedOptions.length > 0 ? selectedOptions : null;
+                }
+            },
+
+            watch: {
+                selectedValue(newValue) {
+                    if (
+                        (newValue instanceof Array && newValue.length < 1) || null == newValue
+                    ) {
+                        this.$emit('input', newValue);
+
+                        return;
+                    }
+
+                    this.$emit('input', JSON.stringify(newValue));
+                },
+            },
+
+            methods: {
+                parseOptions() {
+                    try {
+                        if (Array.isArray(this.options)) {
+                            return this.options;
+                        }
+
+                        const parsed = this.options ? JSON.parse(this.options) : [];
+
+                        return Array.isArray(parsed) ? parsed : [];
+                    } catch (error) {
+                        console.error('Error parsing options JSON:', error);
+                        return [];
+                    }
+                },
+                parseValue() {
+                    try {
+                        return this.value ? JSON.parse(this.value) : [];
+                    } catch (error) {
+                        return this.value;
+                    }
+                },
+                selectOption(newValue) {
+                    this.$emit('select-option', {
+                        target: {
+                            value: newValue
+                        }
+                    });
+                },
+                removeOption(removeValue) {
+                    this.$emit('remove-option', {
+                        target: {
+                            value: removeValue
+                        }
+                    });
+                },
+            }
+        });
+    </script>
+
+
+    <script type="text/x-template" id="v-tagging-handler-template">
+        <div>
+            <v-multiselect
+                :track-by="trackBy"
+                :label="labelBy"
+                :taggable="true"
+                @tag="addTag"
+                @select="selectOption"
+                @remove="removeOption"
+                :options="formattedOptions"
+                :preserve-search="false"
+                :multiple="true"
+                :searchable="true"
+                :placeholder="placeholder"
+                :close-on-select="true"
+                :clear-on-select="false"
+                :show-no-results="true"
+                :hide-selected="true"
+                :name="name"
+                v-model="selectedValue"
+                v-bind="field"
+            >
+
+            </v-multiselect>   
+            <input
+                v-model="selectedOption"
+                v-validate="'required'"
+                :name="name"
+                type="hidden"
+            >
+        </div>
+    </script>
+
+    <script type="module">
+        app.component('v-tagging-handler', {
+            template: '#v-tagging-handler-template',
+
+            props: {
+                trackBy: {
+                    type: String,
+                    default: 'id'
+                },
+                labelBy: {
+                    type: String,
+                    default: 'label'
+                },
+                options: Array,
+                label: String,
+                name: String,
+                value: String,
+                field: Array,
+                placeholder: String,
+            },
+            
+            data() {
+                return {
+                    selectedValue: this.parseValue() ? this.parseOptions().filter(option =>  this.parseValue() instanceof Array && this.parseValue()?.some(valueItem => option[this.trackBy] === valueItem)) : [],
+                }
+            },
+
+            computed: {
+                formattedOptions() {
+                    return this.parseOptions();
+                },
+                selectedOption() {
+                    let selectedOptions = [];
+
+                    this.selectedValue instanceof Array ? this.selectedValue.forEach((item) => {
+                        selectedOptions.push(item[this.trackBy]);
+                    }) : null;
+
+                    return selectedOptions.length > 0 ? selectedOptions : null;
+                },
+                
+            },
+
+            watch: {
+                selectedValue(newValue) {
+                    if (
+                        (newValue instanceof Array && newValue.length < 1) || null == newValue
+                    ) {
+                        this.$emit('input', newValue);
+
+                        return;
+                    }
+
+                    this.$emit('input', JSON.stringify(newValue));
+                },
+            },
+
+            methods: {
+                parseOptions() {
+                    try {
+                        if (Array.isArray(this.options)) {
+                            return this.options;
+                        }
+
+                        const parsed = this.options ? JSON.parse(this.options) : [];
+
+                        return Array.isArray(parsed) ? parsed : [];
+                    } catch (error) {
+                        console.error('Error parsing options JSON:', error);
+                        return [];
+                    }
+                },
+                parseValue() {
+                    try {
+                        return this.value ? JSON.parse(this.value) : [];
+                    } catch (error) {
+                        return this.value;
+                    }
+                },
+                addTag (newTag) {
+                    const tag = {
+                        name: newTag,
+                        code: newTag
+                    };
+                    this.formattedOptions.push(tag);
+                    this.selectedValue.push(tag);
+                    this.$emit('add-option', {
+                        target: {
+                            value: tag
+                        }
+                    });
+                },
+                selectOption(tag) {
+                    this.$emit('select-option', {
+                        target: {
+                            value: tag
+                        }
+                    });
+                },
+                removeOption(tag) {
+                    this.$emit('remove-option', {
+                        target: {
+                            value: tag
+                        }
+                    });
+                },                
+            }
+        });
+    </script>
+
+
+    <script type="text/x-template" id="v-taggingselect-handler-template">
+        <div>
+            <v-multiselect
+                id="ajax"
+                :track-by="trackBy"
+                :label="labelBy"
+                :taggable="true"
+                @tag="addTag"
+                @select="selectOption"
+                @remove="removeOption"
+                :options="formattedOptions"
+                :preserve-search="false"
+                :multiple="true"
+                :searchable="true"
+                :placeholder="placeholder"
+                :close-on-select="true"
+                :clear-on-select="false"
+                :show-no-results="true"
+                :hide-selected="true"
+                :name="name"
+                v-model="selectedValue"
+                v-bind="field"
+                @search-change="handleSearch"
+                @open="openedSelect"
+                @scroll="onScroll"
+                ref="taggingselect__handler__"
+                :loading="isLoading ?? false"
+                :internal-search="false"
+                :disabled="disabled ?? false"
+            >
+            </v-multiselect>   
+            <input
+                v-model="selectedOption"
+                v-validate="'required'"
+                :name="name"
+                type="hidden"
+            >
+        </div>
+    </script>
+
+    <script type="module">
+        app.component('v-taggingselect-handler', {
+            template: '#v-taggingselect-handler-template',
+
+            props: {
+                trackBy: {
+                    type: String,
+                    default: 'id'
+                },
+                labelBy: {
+                    type: String,
+                    default: 'label'
+                },
+                options: Array,
+                label: String,
+                name: String,
+                value: String,
+                field: Array,
+                placeholder: String,
+                entityName: String,
+                attributeId: String,
+                multiple: Boolean,
+                isLoading: Boolean,
+                listRoute: {
+                    type: String,
+                    default: 'http://127.0.0.1:8000/admin/catalog/ajax-options/fetch-options'
+                },
+                queryParams: Array,
+            },
+            
+            data() {
+                return {
+                    selectedValue: this.parseValue() ? this.parseOptions().filter(option =>  this.parseValue() instanceof Array && this.parseValue()?.some(valueItem => option[this.trackBy] === valueItem)) : [],
+                    isLoading: false,
+                    optionsList: [],
+                    timeout: null,
+                    delayTime: 500,
+                    lastPage: 1,
+
+                    params: {
+                        entityName: this.entityName,
+                        attributeId: this.attributeId,
+                        page: 1,
+                        locale: "en_US",
+                        ...this.queryParams
+                    }
+                }
+            },
+            mounted() {
+                this.$refs['taggingselect__handler__']._.refs.list.addEventListener('scroll', this.onScroll);
+
+                if (this.selectedValue && typeof this.selectedValue != 'object') {
+                    this.initializeValue();
+                }
+            },
+            computed: {
+                formattedOptions() {
+                    return this.optionsList;
+                },
+                selectedOption() {
+                    let selectedOptions = [];
+
+                    this.selectedValue instanceof Array ? this.selectedValue.forEach((item) => {
+                        selectedOptions.push(item[this.trackBy]);
+                    }) : null;
+
+                    return selectedOptions.length > 0 ? selectedOptions : null;
+                },
+                
+            },
+
+            watch: {
+                selectedValue(newValue) {
+                    if (
+                        (newValue instanceof Array && newValue.length < 1) || null == newValue
+                    ) {
+                        this.$emit('input', newValue);
+
+                        return;
+                    }
+
+                    this.$emit('input', JSON.stringify(newValue));
+                },
+            },
+
+            methods: {
+                search(query) {
+                    this.isLoading = true;
+                    this.params.query = query;
+                    this.params.page = 1;
+
+                    this.$axios.get(this.listRoute, {params: this.params})
+                        .then((result) => {
+                            this.optionsList = result.data.options;
+                            this.lastPage = result.data.lastPage;
+                            this.params.page = result.data.page;
+
+                            this.isLoading = false;
+                        })
+                },
+                openedSelect(id) {
+                    if (this.optionsList.length < 1) {
+                        this.isLoading = true;
+
+                        this.$axios.get(this.listRoute, {params: this.params})
+                            .then((result) => {
+                                this.optionsList = result.data.options;
+                                this.lastPage = result.data.lastPage;
+                                this.params.page = result.data.page;
+
+                                this.isLoading = false;
+                            });
+                    }
+                },
+                onScroll(e) {
+                    const element = this.$refs['taggingselect__handler__']._.refs.list;
+                    const tolerance = 10;
+
+                    if (
+                        (element.scrollHeight - element.scrollTop) - element.clientHeight <= tolerance
+                        && this.lastPage > this.params.page
+                    ) {
+                        this.fetchMore();
+                    }
+                },
+                fetchMore() {
+                    this.isLoading = true;
+
+                    this.params.page++;
+                    this.$axios.get(this.listRoute, {params: this.params})
+                        .then((result) => {
+                            this.optionsList = [...this.optionsList, ...result.data.options];
+                            this.lastPage = result.data.lastPage;
+                            this.params.page = result.data.page;
+
+                            this.isLoading = false;
+                        });
+                },
+
+                initializeValue() {
+                    this.isLoading = true;
+                    this.params.identifiers = {
+                        columnName: this.trackBy,
+                        values: 'string' == typeof this.selectedValue ? this.selectedValue?.split(',') : this.selectedValue
+                    };
+
+                    this.$axios.get(this.listRoute, {params: this.params})
+                        .then((result) => {
+                            this.selectedValue = this.multiple ? result.data.options : result.data.options[0];
+
+                            this.params.identifiers = {};
+
+                            this.isLoading = false;
+                        })
+                },
+                handleSearch(query) {
+                    if (null !== this.timer) {
+                        clearTimeout(this.timer);
+                    }
+
+                    this.timer = setTimeout(this.search(query), this.delayTime);
+                },
+
+                parseOptions() {
+                    try {
+                        if (Array.isArray(this.options)) {
+                            return this.options;
+                        }
+
+                        const parsed = this.options ? JSON.parse(this.options) : [];
+
+                        return Array.isArray(parsed) ? parsed : [];
+                    } catch (error) {
+                        console.error('Error parsing options JSON:', error);
+                        return [];
+                    }
+                },
+                parseValue() {
+                    try {
+                        return this.value ? JSON.parse(this.value) : [];
+                    } catch (error) {
+                        return this.value;
+                    }
+                },
+                addTag (newTag) {
+                    const tag = {
+                        name: newTag,
+                        code: newTag
+                    };
+                    this.formattedOptions.push(tag);
+                    this.selectedValue.push(tag);
+                    this.$emit('add-option', {
+                        target: {
+                            value: tag
+                        }
+                    });
+                },
+                selectOption(tag) {
+                    this.$emit('select-option', {
+                        target: {
+                            value: tag
+                        }
+                    });
+                },
+                removeOption(tag) {
+                    this.$emit('remove-option', {
+                        target: {
+                            value: tag
+                        }
+                    });
+                },                
+            }
+        });
+    </script>
+
+    <script type="text/x-template" id="v-async-select-handler-template">
+        <div>
+            <v-multiselect
+                id="ajax"
+                :track-by="trackBy"
+                :label="labelBy"
+                :options="formattedOptions"
+                :preserve-search="true"
+                :searchable="true"
+                :placeholder="placeholder"
+                :loading="isLoading ?? false"
+                :max-height="600"
+                :internal-search="false"
+                :close-on-select="onselect"
+                :clear-on-select="false"
+                :show-no-results="true"
+                :hide-selected="false"
+                :disabled="disabled ?? false"
+                :multiple="multiple ?? false"
+                :name="name"
+                @search-change="handleSearch"
+                @open="openedSelect"
+                @scroll="onScroll"
+                @select="selectOption"
+                @remove="removeOption"
+                ref="multiselect__handler__"
+                v-model="selectedValue"
+                v-bind="field"
+            >
+                
+                
+                            </v-multiselect>
+            <input
+                v-model="selectedOption"
+                v-validate="'required'"
+                :name="name"
+                type="hidden"
+            >
+        </div>
+        
+        <div class="overflow-auto w-full">
+            <v-modal
+    is-active=""
+    ref="imagePreviewModal"
+>
+    
+            <template v-slot:header="{ toggle, isOpen }">
+            <div class="flex justify-between items-center gap-2.5 px-4 py-3 border-b dark:border-gray-800">
+                <p class="text-lg text-gray-800 dark:text-white font-bold"></p>
+
+                <span
+                    class="icon-cancel text-3xl  cursor-pointer hover:bg-violet-50 dark:hover:bg-cherry-800 hover:rounded-md"
+                    @click="toggle"
+                >
+                </span>
+            </div>
+        </template>
+    
+            <template v-slot:content>
+            <div class="px-4 py-2.5 border-b dark:border-gray-800">
+                <div style="max-width: 100%; height: 260px;">
+                        <img :src="fileUrl" class="w-full h-full object-contain object-top" />
+                    </div>
+            </div>
+        </template>
+    
+    </v-modal>
+
+        </div>
+         
+    </script>
+
+    <script type="module">
+        app.component('v-async-select-handler', {
+            template: '#v-async-select-handler-template',
+
+            props: {
+                trackBy: {
+                    type: String,
+                    default: 'id'
+                },
+                labelBy: {
+                    type: String,
+                    default: 'label'
+                },
+                options: Array,
+                label: String,
+                name: String,
+                value: String,
+                field: Array,
+                placeholder: String,
+                disabled: Boolean,
+                isLoading: Boolean,
+                entityName: String,
+                attributeId: String,
+                multiple: Boolean,
+                onselect: {
+                    type: Boolean,
+                    default: true
+                },
+                listRoute: {
+                    type: String,
+                    default: "http://127.0.0.1:8000/admin/catalog/ajax-options/fetch-options"
+                },
+                queryParams: Array,
+            },
+
+            data() {
+                return {
+                    selectedValue: this.parseValue() ? this.parseValue() : null,
+
+                    isLoading: false,
+                    optionsList: [],
+                    timeout: null,
+                    delayTime: 500,
+                    lastPage: 1,
+
+                    params: {
+                        entityName: this.entityName,
+                        attributeId: this.attributeId,
+                        page: 1,
+                        locale: "en_US",
+                        ...this.queryParams
+                    }
+                }
+            },
+
+            computed: {
+                formattedOptions() {
+                    return this.optionsList;
+                },
+                selectedOption() {
+                    if (this.multiple) {
+                        return this.getMultiSelectedOption();
+                    }
+
+                    return this.getSingleSelectedOption();
+                }
+            },
+
+            mounted() {
+                this.$nextTick(() => {
+                    const listRef = this.$refs['multiselect__handler__']?._?.refs?.list;
+                    if (listRef) {
+                        listRef.addEventListener('scroll', this.onScroll);
+                    }
+                });
+
+                if (this.selectedValue && typeof this.selectedValue != 'object') {
+                    this.initializeValue();
+                }
+            },
+
+            watch: {
+                selectedValue(newValue) {
+                    if (this.multiple && this.isInvalidMultipleValue(newValue)) {
+                        this.$emit('input', newValue);
+
+                        return;
+                    } else if (! this.multiple && this.isInvalidSingleValue(newValue)) {
+                        this.$emit('input', '');
+
+                        return;
+                    }
+
+                    this.$emit('input', JSON.stringify(newValue));
+                },
+            },
+            
+            methods: {
+                parseValue() {
+                    try {
+                        return this.value ? JSON.parse(this.value) : null;
+                    } catch (error) {
+                        return this.value;
+                    }
+                },
+                getMultiSelectedOption() {
+                    let selectedOptions = [];
+
+                    this.selectedValue instanceof Array ? this.selectedValue.forEach((item) => {
+                        selectedOptions.push(item[this.trackBy]);
+                    }) : null;
+
+                    return selectedOptions.length > 0 ? selectedOptions : null
+                },
+                getSingleSelectedOption() {
+                    return this.selectedValue instanceof Object ? this.selectedValue[this.trackBy] : null;
+                },
+                isInvalidMultipleValue(newValue) {
+                    if ((newValue instanceof Array && newValue.length < 1) || null == newValue) {
+                        return true;
+                    }
+
+                    return false;
+                },
+                isInvalidSingleValue(newValue) {
+                    if (! (newValue instanceof Object)) {
+                        return true;
+                    }
+
+                    return false;
+                },
+
+                handleSearch(query) {
+                    if (null !== this.timer) {
+                        clearTimeout(this.timer);
+                    }
+
+                    this.timer = setTimeout(this.search(query), this.delayTime);
+                },
+
+                search(query) {
+                    this.isLoading = true;
+                    this.params.query = query;
+                    this.params.page = 1;
+
+                    this.$axios.get(this.listRoute, {params: this.params})
+                        .then((result) => {
+                            this.optionsList = result.data.options;
+                            this.lastPage = result.data.lastPage;
+                            this.params.page = result.data.page;
+
+                            this.isLoading = false;
+                        })
+                },
+                openedSelect(id) {
+                    if (this.optionsList.length < 1) {
+                        this.isLoading = true;
+                        
+                        this.$axios.get(this.listRoute, {params: this.params})
+                        .then((result) => {
+                            this.optionsList = result.data.options;
+                            this.lastPage = result.data.lastPage;
+                            this.params.page = result.data.page;
+                            
+                            this.isLoading = false;
+                        });
+                    }
+
+                    this.$nextTick(() => {
+                        const listEl = this.$refs['multiselect__handler__'].$el.querySelector('.multiselect__content-wrapper');
+
+                        if (listEl) {
+                            listEl.removeEventListener('scroll', this.onScroll);
+                            listEl.addEventListener('scroll', this.onScroll);
+                        }
+                    });
+                },
+                onScroll(e) {
+                    const element = this.$refs['multiselect__handler__']._.refs.list;
+                    const tolerance = 10;
+
+                    if (
+                        (element.scrollHeight - element.scrollTop) - element.clientHeight <= tolerance
+                        && this.lastPage > this.params.page
+                    ) {
+                        this.fetchMore();
+                    }
+                },
+                fetchMore() {
+                    this.isLoading = true;
+
+                    this.params.page++;
+                    this.$axios.get(this.listRoute, {params: this.params})
+                        .then((result) => {
+                            this.optionsList = [...this.optionsList, ...result.data.options];
+                            this.lastPage = result.data.lastPage;
+                            this.params.page = result.data.page;
+
+                            this.isLoading = false;
+                        });
+                },
+
+                initializeValue() {
+                    this.isLoading = true;
+                    this.params.identifiers = {
+                        columnName: this.trackBy,
+                        values: 'string' == typeof this.selectedValue ? this.selectedValue?.split(',') : this.selectedValue
+                    };
+
+                    this.$axios.get(this.listRoute, {params: this.params})
+                        .then((result) => {
+                            this.selectedValue = this.multiple ? result.data.options : result.data.options[0];
+
+                            this.params.identifiers = {};
+
+                            this.isLoading = false;
+                        })
+                },
+
+                selectOption(newValue) {
+                    this.$emit('select-option', {
+                        target: {
+                            value: newValue
+                        }
+                    });
+                },
+
+                removeOption(removeValue) {
+                    this.$emit('remove-option', {
+                        target: {
+                            value: removeValue
+                        }
+                    });
+                },
+
+                previewImage(option) {
+                    this.fileUrl = option.swatch_value_url || 'http://127.0.0.1:8000/themes/admin/default/build/assets/front-CFI3VfdH.svg';
+                    this.$refs.imagePreviewModal.toggle();
+                }
+            }
+        });
+    </script>
+    <script type="text/x-template" id="v-file-uploader-template">
+        <div :class="[errors.length ? 'flex items-center justify-center w-full border !border-red-600 hover:border-red-600' : 'flex items-center justify-center w-full']">
+            <label
+                :for="$.uid + '_dropzone-file'"
+                class="flex flex-col items-center justify-center w-full h-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-violet-50 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600 transition-colors"
+                @dragover.prevent="isDragging = true"
+                @dragleave.prevent="isDragging = false"
+                @drop.prevent="onDrop($event)"
+                :class="{ '!border-violet-500 !bg-violet-50 dark:!bg-violet-900/20': isDragging }"
+            >
+                <div class="flex flex-col items-center justify-center py-6">
+                    <template v-if="fieldData.value && (fieldData.value.name || field.value)">
+                        <span class="icon-product text-4xl mb-4 mr-4"></span>
+                        <div class="flex justify-between items-center mb-2 text-sm text-gray-500 dark:text-gray-400">
+                            <p class="text-sm text-gray-500 dark:text-gray-400" v-html="fieldData.value.name || field.value"></p>
+                            <button
+                                type="button"
+                                @click="clearFile"
+                                class="icon-cancel text-3xl cursor-pointer hover:bg-violet-50 dark:hover:bg-cherry-800 hover:rounded-md"
+                            >
+                            </button>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <span class="icon-export text-gray-500 dark:text-gray-400 text-4xl"></span>
+                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400" v-html="info"></p>
+                    </template>
+                </div>
+                            
+                <input
+                    :id="$.uid + '_dropzone-file'"
+                    type="file"
+                    :name="name"
+                    class="hidden"
+                    :class="[errors.length ? 'border !border-red-600 hover:border-red-600' : '']"
+                    @change="handleChange"
+                    @blur="handleBlur"
+                    ref="fileInput"
+                />
+            </label>
+        </div>
+    </script>
+    
+    <script type="module">
+        app.component('v-file-uploader', {
+            template: '#v-file-uploader-template',
+
+            props: {
+                field: Object,
+                info: String,
+                name: String,
+                value: String,
+                errors: {
+                    type: Array,
+                    default: () => []
+                }
+            },
+
+            data() {
+                return {
+                    fieldData: this.field,
+                    isDragging: false,
+                }
+            },
+            watch: {
+                field: {
+                    handler(newValue) {
+                        this.fieldData = newValue;
+                    },
+                    deep: true
+                },
+                fieldData: {
+                    handler(newValue) {
+                        this.$forceUpdate();
+                    },
+                    deep: true
+                }
+                },
+            methods: {
+                handleChange(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        this.fieldData.value = file;
+                    }
+                    this.$nextTick(() => {
+                        this.$forceUpdate();
+                    });
+                },
+                 
+                onDrop(event) {
+                    this.isDragging = false;
+
+                    const file = event.dataTransfer.files[0];
+
+                    if (file) {
+                        this.fieldData.value = file;
+
+                        this.$nextTick(() => {
+                            this.$forceUpdate();
+                        });
+                    }
+                },
+
+                clearFile(event) {
+                    this.fieldData.value = null;
+                    // this.$refs.fileInput.value = null;
+                    this.$nextTick(() => {
+                        // Force update to refresh any related UI without reopening the upload dialog
+                        this.$forceUpdate();
+                    });
+                    event.preventDefault();
+                }
+            }
+        });
+    </script>
+        <script>
+            function switchVisibility() {
+                let passwordField = document.getElementById("password");
+                let visibilityIcon = document.getElementById("visibilityIcon");
+
+                passwordField.type = passwordField.type === "password" ? "text" : "password";
+
+                visibilityIcon.classList.toggle("icon-view");
+                visibilityIcon.classList.toggle("icon-view-close");
+            }
+        </script>
+        <script type="text/x-template" id="v-flash-item-template">
+        <div
+            class="flex gap-12 justify-between w-max p-3 rounded-full"
+            :style="typeStyles[flash.type]['container']"
+        >
+            <p
+                class="text-sm flex items-center break-all"
+                :style="typeStyles[flash.type]['message']"
+            >
+                <span
+                    class="icon-toast-done text-2xl ltr:mr-2.5 rtl:ml-2.5 bg-white dark:bg-cherry-800 rounded-full"
+                    :class="iconClasses[flash.type]"
+                    :style="typeStyles[flash.type]['icon']"
+                ></span>
+
+                <span v-html="flash.message"></span>
+            </p>
+
+			<span
+                class="underline cursor-pointer"
+                :style="typeStyles[flash.type]['message']"
+                @click="remove"
+            >
+                Close
+            </span>
+        </div>
+    </script>
+
+    <script type="module">
+        app.component('v-flash-item', {
+            template: '#v-flash-item-template',
+
+            props: ['flash'],
+
+            data() {
+                return {
+                    iconClasses: {
+                        success: 'icon-done',
+
+                        error: 'icon-cancel',
+
+                        warning: 'icon-information',
+
+                        info: 'icon-processing',
+                    },
+
+                    typeStyles: {
+                        success: {
+                            container: 'background: #059669',
+
+                            message: 'color: #FFFFFF',
+
+                            icon: 'color: #059669'
+                        },
+
+                        error: {
+                            container: 'background: #EF4444',
+
+                            message: 'color: #FFFFFF',
+
+                            icon: 'color: #EF4444'
+                        },
+
+                        warning: {
+                            container: 'background: #FACC15',
+
+                            message: 'color: #1F2937',
+
+                            icon: 'color: #FACC15'
+                        },
+
+                        info: {
+                            container: 'background: #0284C7',
+
+                            message: 'color: #FFFFFF',
+
+                            icon: 'color: #0284C7'
+                        },
+                    },
+                };
+            },
+
+            created() {
+                var self = this;
+
+                setTimeout(function() {
+                    self.remove()
+                }, 5000)
+            },
+
+            methods: {
+                remove() {
+                    this.$emit('onRemove', this.flash)
+                }
+            }
+        });
+    </script>
+
+    <script type="text/javascript">
+        
+    </script>
+<script type="text/javascript">
+var phpdebugbar = new PhpDebugBar.DebugBar({"theme":"auto","hideEmptyTabs":true});
+phpdebugbar.addTab("request", new PhpDebugBar.DebugBar.Tab({"icon":"tags","order":-100,"title":"Request", "widget": new PhpDebugBar.Widgets.HtmlVariableListWidget()}));
+phpdebugbar.addTab("modules", new PhpDebugBar.DebugBar.Tab({"icon":"cubes","title":"Modules", "widget": new PhpDebugBar.Widgets.ModulesWidget()}));
+phpdebugbar.addTab("messages", new PhpDebugBar.DebugBar.Tab({"icon":"list-alt","title":"Messages", "widget": new PhpDebugBar.Widgets.MessagesWidget()}));
+phpdebugbar.addIndicator("time", new PhpDebugBar.DebugBar.Indicator({"icon":"clock-o","tooltip":"Request Duration","link":"timeline"}), "right");
+phpdebugbar.addTab("timeline", new PhpDebugBar.DebugBar.Tab({"icon":"tasks","title":"Timeline", "widget": new PhpDebugBar.Widgets.TimelineWidget()}));
+phpdebugbar.addIndicator("memory", new PhpDebugBar.DebugBar.Indicator({"icon":"cogs","tooltip":"Memory Usage"}), "right");
+phpdebugbar.addTab("exceptions", new PhpDebugBar.DebugBar.Tab({"icon":"bug","title":"Exceptions", "widget": new PhpDebugBar.Widgets.ExceptionsWidget()}));
+phpdebugbar.addIndicator("version", new PhpDebugBar.DebugBar.Indicator({"icon":"laravel phpdebugbar-fab"}), "right");
+phpdebugbar.addTab("views", new PhpDebugBar.DebugBar.Tab({"icon":"leaf","title":"Views", "widget": new PhpDebugBar.Widgets.TemplatesWidget()}));
+phpdebugbar.addTab("queries", new PhpDebugBar.DebugBar.Tab({"icon":"database","title":"Queries", "widget": new PhpDebugBar.Widgets.LaravelQueriesWidget()}));
+phpdebugbar.addTab("models", new PhpDebugBar.DebugBar.Tab({"icon":"cubes","title":"Models", "widget": new PhpDebugBar.Widgets.TableVariableListWidget()}));
+phpdebugbar.addTab("emails", new PhpDebugBar.DebugBar.Tab({"icon":"inbox","title":"Mails", "widget": new PhpDebugBar.Widgets.MailsWidget()}));
+phpdebugbar.addTab("gate", new PhpDebugBar.DebugBar.Tab({"icon":"list-alt","title":"Gate", "widget": new PhpDebugBar.Widgets.MessagesWidget()}));
+phpdebugbar.addIndicator("currentrequest", new PhpDebugBar.DebugBar.Indicator({"icon":"share","link":"request"}), "right");
+phpdebugbar.setDataMap({
+"request": ["request.data", {}],
+"modules": ["modules", []],
+"modules:badge": ["modules.count", 0],
+"messages": ["messages.messages", []],
+"messages:badge": ["messages.count", null],
+"time": ["time.duration_str", '0ms'],
+"timeline": ["time", {}],
+"memory": ["memory.peak_usage_str", '0B'],
+"exceptions": ["exceptions.exceptions", []],
+"exceptions:badge": ["exceptions.count", null],
+"version": ["laravel.version", ],
+"version:tooltip": ["laravel.tooltip", {}],
+"views": ["views", []],
+"views:badge": ["views.nb_templates", 0],
+"queries": ["queries", []],
+"queries:badge": ["queries.nb_statements", 0],
+"models": ["models", {}],
+"models:badge": ["models.count", 0],
+"emails": ["symfonymailer_mails.mails", []],
+"emails:badge": ["symfonymailer_mails.count", null],
+"gate": ["gate.messages", []],
+"gate:badge": ["gate.count", null],
+"request:badge": ["request.badge", null],
+"currentrequest": ["request.data.uri", ],
+"currentrequest:tooltip": ["request.tooltip", {}]
+});
+phpdebugbar.restoreState();
+phpdebugbar.enableAjaxHandlerTab();
+phpdebugbar.ajaxHandler = new PhpDebugBar.AjaxHandler(phpdebugbar, undefined, true);
+phpdebugbar.ajaxHandler.bindToFetch();
+phpdebugbar.ajaxHandler.bindToXHR();
+phpdebugbar.setOpenHandler(new PhpDebugBar.OpenHandler({"url":"http:\/\/127.0.0.1:8000\/_debugbar\/open"}));
+phpdebugbar.addDataSet({"__meta":{"id":"01KP80XXA7ZCSD6BBTK2GK2NM7","datetime":"2026-04-15 07:33:12","utime":1776238392.647508,"method":"GET","uri":"\/admin\/dashboard","ip":"127.0.0.1"},"modules":{"count":1,"modules":[{"name":"Webkul\\User","models":[],"views":[],"queries":[{"sql":"select count(*) as aggregate from `admins`","duration":0.26,"duration_str":"260ms","connection":"unopim_aws_01"},{"sql":"select count(*) as aggregate from `admins`","duration":0.21,"duration_str":"210ms","connection":"unopim_aws_01"}]}]},"messages":{"count":0,"messages":[]},"time":{"count":3,"start":1776238392.41737,"end":1776238392.659092,"duration":0.24172186851501465,"duration_str":"242ms","measures":[{"label":"Booting","start":1776238392.41737,"relative_start":0,"end":1776238392.617815,"relative_end":1776238392.617815,"duration":0.20044493675231934,"duration_str":"200ms","memory":0,"memory_str":"0B","params":[],"collector":"time","group":null},{"label":"Application","start":1776238392.617823,"relative_start":0.2004528045654297,"end":1776238392.659095,"relative_end":3.0994415283203125e-6,"duration":0.04127216339111328,"duration_str":"41.27ms","memory":0,"memory_str":"0B","params":[],"collector":"time","group":null},{"label":"Routing","start":1776238392.627541,"relative_start":0.21017098426818848,"end":1776238392.630739,"relative_end":1776238392.630739,"duration":0.003197908401489258,"duration_str":"3.2ms","memory":0,"memory_str":"0B","params":[],"collector":null,"group":null}]},"memory":{"peak_usage":40936776,"peak_usage_str":"39MB"},"exceptions":{"count":0,"exceptions":[]},"laravel":{"version":"12.x","tooltip":{"Laravel Version":"12.55.1","PHP Version":"8.3.29","Environment":"local","Debug Mode":"Enabled","URL":"localhost:8000","Timezone":"UTC","Locale":"en_US"}},"views":{"count":0,"nb_templates":0,"templates":[]},"queries":{"count":0,"nb_statements":0,"nb_visible_statements":0,"nb_excluded_statements":0,"nb_failed_statements":0,"accumulated_duration":0,"accumulated_duration_str":"0\u03bcs","memory_usage":0,"memory_usage_str":null,"statements":[]},"models":{"data":[],"count":0,"key_map":{"retrieved":"Retrieved","created":"Created","updated":"Updated","deleted":"Deleted"},"is_counter":true,"badges":[]},"symfonymailer_mails":{"count":0,"mails":[]},"gate":{"count":0,"messages":[]},"request":{"data":{"status":"302 Found","full_url":"http:\/\/127.0.0.1:8000\/admin\/dashboard","action_name":"admin.dashboard.index","controller_action":"Webkul\\Admin\\Http\\Controllers\\DashboardController@index","uri":"GET admin\/dashboard","controller":{"value":"Webkul\\Admin\\Http\\Controllers\\DashboardController@index","xdebug_link":{"url":"phpstorm:\/\/open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FHttp%2FControllers%2FDashboardController.php\u0026line=38","ajax":false,"filename":"DashboardController.php","line":"38"}},"prefix":"admin\/dashboard","file":{"value":"packages\/Webkul\/Admin\/src\/Http\/Controllers\/DashboardController.php:38-43","xdebug_link":{"url":"phpstorm:\/\/open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FHttp%2FControllers%2FDashboardController.php\u0026line=38","ajax":false,"filename":"DashboardController.php","line":"38"}},"middleware":"web, admin","duration":"242ms","peak_memory":"40.5MB","response":"Redirect to http:\/\/127.0.0.1:8000\/admin\/login","request_format":"html","request_query":"\u003Cpre class=sf-dump id=sf-dump-1357995640 data-indent-pad=\u0022  \u0022\u003E[]\n\u003C\/pre\u003E\u003Cscript\u003ESfdump(\u0022sf-dump-1357995640\u0022, {\u0022maxDepth\u0022:0})\u003C\/script\u003E\n","request_request":"\u003Cpre class=sf-dump id=sf-dump-1443038475 data-indent-pad=\u0022  \u0022\u003E[]\n\u003C\/pre\u003E\u003Cscript\u003ESfdump(\u0022sf-dump-1443038475\u0022, {\u0022maxDepth\u0022:0})\u003C\/script\u003E\n","request_headers":"\u003Cpre class=sf-dump id=sf-dump-1562307908 data-indent-pad=\u0022  \u0022\u003E\u003Cspan class=sf-dump-note\u003Earray:13\u003C\/span\u003E [\u003Csamp data-depth=1 class=sf-dump-expanded\u003E\n  \u0022\u003Cspan class=sf-dump-key\u003Ehost\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002214 characters\u0022\u003E127.0.0.1:8000\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Econnection\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002210 characters\u0022\u003Ekeep-alive\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Esec-ch-ua\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002266 characters\u0022\u003E\u0026quot;Not;A=Brand\u0026quot;;v=\u0026quot;99\u0026quot;, \u0026quot;HeadlessChrome\u0026quot;;v=\u0026quot;139\u0026quot;, \u0026quot;Chromium\u0026quot;;v=\u0026quot;139\u0026quot;\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Esec-ch-ua-mobile\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u00222 characters\u0022\u003E?0\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Esec-ch-ua-platform\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u00227 characters\u0022\u003E\u0026quot;Linux\u0026quot;\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Eupgrade-insecure-requests\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str\u003E1\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Euser-agent\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u0022112 characters\u0022\u003EMozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) HeadlessChrome\/139.0.7258.5 Safari\/537.36\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Eaccept\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u0022135 characters\u0022\u003Etext\/html,application\/xhtml+xml,application\/xml;q=0.9,image\/avif,image\/webp,image\/apng,*\/*;q=0.8,application\/signed-exchange;v=b3;q=0.7\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Esec-fetch-site\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u00224 characters\u0022\u003Enone\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Esec-fetch-mode\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u00228 characters\u0022\u003Enavigate\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Esec-fetch-user\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u00222 characters\u0022\u003E?1\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Esec-fetch-dest\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u00228 characters\u0022\u003Edocument\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Eaccept-encoding\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002223 characters\u0022\u003Egzip, deflate, br, zstd\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n\u003C\/samp\u003E]\n\u003C\/pre\u003E\u003Cscript\u003ESfdump(\u0022sf-dump-1562307908\u0022, {\u0022maxDepth\u0022:0})\u003C\/script\u003E\n","request_cookies":"\u003Cpre class=sf-dump id=sf-dump-1011593827 data-indent-pad=\u0022  \u0022\u003E[]\n\u003C\/pre\u003E\u003Cscript\u003ESfdump(\u0022sf-dump-1011593827\u0022, {\u0022maxDepth\u0022:0})\u003C\/script\u003E\n","response_headers":"\u003Cpre class=sf-dump id=sf-dump-1183767136 data-indent-pad=\u0022  \u0022\u003E\u003Cspan class=sf-dump-note\u003Earray:4\u003C\/span\u003E [\u003Csamp data-depth=1 class=sf-dump-expanded\u003E\n  \u0022\u003Cspan class=sf-dump-key\u003Ecache-control\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002217 characters\u0022\u003Eno-cache, private\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Edate\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002229 characters\u0022\u003EWed, 15 Apr 2026 07:33:12 GMT\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Elocation\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002233 characters\u0022\u003Ehttp:\/\/127.0.0.1:8000\/admin\/login\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Econtent-type\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002224 characters\u0022\u003Etext\/html; charset=utf-8\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n\u003C\/samp\u003E]\n\u003C\/pre\u003E\u003Cscript\u003ESfdump(\u0022sf-dump-1183767136\u0022, {\u0022maxDepth\u0022:0})\u003C\/script\u003E\n","session_attributes":"\u003Cpre class=sf-dump id=sf-dump-1413320712 data-indent-pad=\u0022  \u0022\u003E\u003Cspan class=sf-dump-note\u003Earray:2\u003C\/span\u003E [\u003Csamp data-depth=1 class=sf-dump-expanded\u003E\n  \u0022\u003Cspan class=sf-dump-key\u003E_token\u003C\/span\u003E\u0022 =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002240 characters\u0022\u003EW6fUy1nUqlYzLkO5roBEMrVlWO9hdqlgMEy6xUd9\u003C\/span\u003E\u0022\n  \u0022\u003Cspan class=sf-dump-key\u003EPHPDEBUGBAR_STACK_DATA\u003C\/span\u003E\u0022 =\u003E []\n\u003C\/samp\u003E]\n\u003C\/pre\u003E\u003Cscript\u003ESfdump(\u0022sf-dump-1413320712\u0022, {\u0022maxDepth\u0022:0})\u003C\/script\u003E\n"},"tooltip":{"status":"302 Found","full_url":"http:\/\/127.0.0.1:8000\/admin\/dashboard","action_name":"admin.dashboard.index","controller_action":"Webkul\\Admin\\Http\\Controllers\\DashboardController@index"},"badge":"302 Found"}}, "01KP80XXA7ZCSD6BBTK2GK2NM7", "(stacked)");
+phpdebugbar.addDataSet({"__meta":{"id":"01KP80XXJP24WYV39XP4PT2Y1H","datetime":"2026-04-15 07:33:12","utime":1776238392.918876,"method":"GET","uri":"\/admin\/login","ip":"127.0.0.1"},"modules":{"count":3,"modules":[{"name":"Webkul\\Admin","models":[],"views":["admin::users.sessions.create (packages\/Webkul\/Admin\/src\/Resources\/views\/users\/sessions\/create.blade.php)","admin::components.form.control-group.label (packages\/Webkul\/Admin\/src\/Resources\/views\/components\/form\/control-group\/label.blade.php)","admin::components.form.control-group.control (packages\/Webkul\/Admin\/src\/Resources\/views\/components\/form\/control-group\/control.blade.php)","admin::components.modal.index (packages\/Webkul\/Admin\/src\/Resources\/views\/components\/modal\/index.blade.php)","admin::components.form.control-group.error (packages\/Webkul\/Admin\/src\/Resources\/views\/components\/form\/control-group\/error.blade.php)","admin::components.form.control-group.index (packages\/Webkul\/Admin\/src\/Resources\/views\/components\/form\/control-group\/index.blade.php)","admin::components.form.control-group.label (packages\/Webkul\/Admin\/src\/Resources\/views\/components\/form\/control-group\/label.blade.php)","admin::components.form.control-group.control (packages\/Webkul\/Admin\/src\/Resources\/views\/components\/form\/control-group\/control.blade.php)","admin::components.form.control-group.error (packages\/Webkul\/Admin\/src\/Resources\/views\/components\/form\/control-group\/error.blade.php)","admin::components.form.control-group.index (packages\/Webkul\/Admin\/src\/Resources\/views\/components\/form\/control-group\/index.blade.php)","admin::components.form.index (packages\/Webkul\/Admin\/src\/Resources\/views\/components\/form\/index.blade.php)","admin::components.layouts.anonymous (packages\/Webkul\/Admin\/src\/Resources\/views\/components\/layouts\/anonymous.blade.php)","admin::components.flash-group.index (packages\/Webkul\/Admin\/src\/Resources\/views\/components\/flash-group\/index.blade.php)","admin::components.flash-group.item (packages\/Webkul\/Admin\/src\/Resources\/views\/components\/flash-group\/item.blade.php)"],"queries":[]},{"name":"Webkul\\Core","models":[],"views":["core::blade.tracer.style (packages\/Webkul\/Core\/src\/Resources\/views\/blade\/tracer\/style.blade.php)"],"queries":[]},{"name":"Webkul\\User","models":[],"views":[],"queries":[{"sql":"select count(*) as aggregate from `admins`","duration":0.26,"duration_str":"260ms","connection":"unopim_aws_01"},{"sql":"select count(*) as aggregate from `admins`","duration":0.31,"duration_str":"310ms","connection":"unopim_aws_01"}]}]},"messages":{"count":0,"messages":[]},"time":{"count":20,"start":1776238392.66849,"end":1776238392.935596,"duration":0.2671060562133789,"duration_str":"267ms","measures":[{"label":"Booting","start":1776238392.66849,"relative_start":0,"end":1776238392.869717,"relative_end":1776238392.869717,"duration":0.20122694969177246,"duration_str":"201ms","memory":0,"memory_str":"0B","params":[],"collector":"time","group":null},{"label":"Application","start":1776238392.869726,"relative_start":0.20123600959777832,"end":1776238392.935598,"relative_end":1.9073486328125e-6,"duration":0.0658719539642334,"duration_str":"65.87ms","memory":0,"memory_str":"0B","params":[],"collector":"time","group":null},{"label":"Routing","start":1776238392.881611,"relative_start":0.2131211757659912,"end":1776238392.883413,"relative_end":1776238392.883413,"duration":0.0018019676208496094,"duration_str":"1.8ms","memory":0,"memory_str":"0B","params":[],"collector":null,"group":null},{"label":"Preparing Response","start":1776238392.890742,"relative_start":0.22225213050842285,"end":1776238392.917334,"relative_end":1776238392.917334,"duration":0.026592016220092773,"duration_str":"26.59ms","memory":0,"memory_str":"0B","params":[],"collector":null,"group":null},{"label":"View: admin::users.sessions.create","start":1776238392.892107,"relative_start":0.2236170768737793,"end":1776238392.892107,"relative_end":1776238392.892107,"duration":0,"duration_str":"0\u03bcs","memory":0,"memory_str":"0B","params":[],"collector":"views","group":"View"},{"label":"View: admin::components.form.control-group.label","start":1776238392.904856,"relative_start":0.23636603355407715,"end":1776238392.904856,"relative_end":1776238392.904856,"duration":0,"duration_str":"0\u03bcs","memory":0,"memory_str":"0B","params":[],"collector":"views","group":"View"},{"label":"View: admin::components.form.control-group.control","start":1776238392.905314,"relative_start":0.23682403564453125,"end":1776238392.905314,"relative_end":1776238392.905314,"duration":0,"duration_str":"0\u03bcs","memory":0,"memory_str":"0B","params":[],"collector":"views","group":"View"},{"label":"View: admin::components.modal.index","start":1776238392.906443,"relative_start":0.23795318603515625,"end":1776238392.906443,"relative_end":1776238392.906443,"duration":0,"duration_str":"0\u03bcs","memory":0,"memory_str":"0B","params":[],"collector":"views","group":"View"},{"label":"View: admin::components.form.control-group.error","start":1776238392.906968,"relative_start":0.2384781837463379,"end":1776238392.906968,"relative_end":1776238392.906968,"duration":0,"duration_str":"0\u03bcs","memory":0,"memory_str":"0B","params":[],"collector":"views","group":"View"},{"label":"View: admin::components.form.control-group.index","start":1776238392.90735,"relative_start":0.2388601303100586,"end":1776238392.90735,"relative_end":1776238392.90735,"duration":0,"duration_str":"0\u03bcs","memory":0,"memory_str":"0B","params":[],"collector":"views","group":"View"},{"label":"View: admin::components.form.control-group.label","start":1776238392.907694,"relative_start":0.23920416831970215,"end":1776238392.907694,"relative_end":1776238392.907694,"duration":0,"duration_str":"0\u03bcs","memory":0,"memory_str":"0B","params":[],"collector":"views","group":"View"},{"label":"View: admin::components.form.control-group.control","start":1776238392.908003,"relative_start":0.23951315879821777,"end":1776238392.908003,"relative_end":1776238392.908003,"duration":0,"duration_str":"0\u03bcs","memory":0,"memory_str":"0B","params":[],"collector":"views","group":"View"},{"label":"View: admin::components.form.control-group.error","start":1776238392.909645,"relative_start":0.24115514755249023,"end":1776238392.909645,"relative_end":1776238392.909645,"duration":0,"duration_str":"0\u03bcs","memory":0,"memory_str":"0B","params":[],"collector":"views","group":"View"},{"label":"View: admin::components.form.control-group.index","start":1776238392.910081,"relative_start":0.2415909767150879,"end":1776238392.910081,"relative_end":1776238392.910081,"duration":0,"duration_str":"0\u03bcs","memory":0,"memory_str":"0B","params":[],"collector":"views","group":"View"},{"label":"View: admin::components.form.index","start":1776238392.910519,"relative_start":0.24202895164489746,"end":1776238392.910519,"relative_end":1776238392.910519,"duration":0,"duration_str":"0\u03bcs","memory":0,"memory_str":"0B","params":[],"collector":"views","group":"View"},{"label":"View: admin::components.layouts.anonymous","start":1776238392.911212,"relative_start":0.2427220344543457,"end":1776238392.911212,"relative_end":1776238392.911212,"duration":0,"duration_str":"0\u03bcs","memory":0,"memory_str":"0B","params":[],"collector":"views","group":"View"},{"label":"View: core::blade.tracer.style","start":1776238392.915018,"relative_start":0.24652814865112305,"end":1776238392.915018,"relative_end":1776238392.915018,"duration":0,"duration_str":"0\u03bcs","memory":0,"memory_str":"0B","params":[],"collector":"views","group":"View"},{"label":"View: aws::icon-style","start":1776238392.915303,"relative_start":0.24681305885314941,"end":1776238392.915303,"relative_end":1776238392.915303,"duration":0,"duration_str":"0\u03bcs","memory":0,"memory_str":"0B","params":[],"collector":"views","group":"View"},{"label":"View: admin::components.flash-group.index","start":1776238392.915904,"relative_start":0.24741411209106445,"end":1776238392.915904,"relative_end":1776238392.915904,"duration":0,"duration_str":"0\u03bcs","memory":0,"memory_str":"0B","params":[],"collector":"views","group":"View"},{"label":"View: admin::components.flash-group.item","start":1776238392.916265,"relative_start":0.24777507781982422,"end":1776238392.916265,"relative_end":1776238392.916265,"duration":0,"duration_str":"0\u03bcs","memory":0,"memory_str":"0B","params":[],"collector":"views","group":"View"}]},"memory":{"peak_usage":41805000,"peak_usage_str":"40MB"},"exceptions":{"count":0,"exceptions":[]},"laravel":{"version":"12.x","tooltip":{"Laravel Version":"12.55.1","PHP Version":"8.3.29","Environment":"local","Debug Mode":"Enabled","URL":"localhost:8000","Timezone":"UTC","Locale":"en_US"}},"views":{"count":16,"nb_templates":16,"templates":[{"name":"admin::users.sessions.create","param_count":null,"params":[],"start":1776238392.892092,"type":"blade","hash":"blade\/home\/users\/sandeep.prajapati\/Desktop\/unopim_test\/unopim\/packages\/Webkul\/Admin\/src\/Providers\/..\/Resources\/views\/users\/sessions\/create.blade.phpadmin::users.sessions.create","xdebug_link":{"url":"phpstorm:\/\/open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fusers%2Fsessions%2Fcreate.blade.php\u0026line=1","ajax":false,"filename":"create.blade.php","line":"?"}},{"name":"admin::components.form.control-group.label","param_count":null,"params":[],"start":1776238392.904845,"type":"blade","hash":"blade\/home\/users\/sandeep.prajapati\/Desktop\/unopim_test\/unopim\/packages\/Webkul\/Admin\/src\/Providers\/..\/Resources\/views\/components\/form\/control-group\/label.blade.phpadmin::components.form.control-group.label","xdebug_link":{"url":"phpstorm:\/\/open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fform%2Fcontrol-group%2Flabel.blade.php\u0026line=1","ajax":false,"filename":"label.blade.php","line":"?"}},{"name":"admin::components.form.control-group.control","param_count":null,"params":[],"start":1776238392.905305,"type":"blade","hash":"blade\/home\/users\/sandeep.prajapati\/Desktop\/unopim_test\/unopim\/packages\/Webkul\/Admin\/src\/Providers\/..\/Resources\/views\/components\/form\/control-group\/control.blade.phpadmin::components.form.control-group.control","xdebug_link":{"url":"phpstorm:\/\/open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fform%2Fcontrol-group%2Fcontrol.blade.php\u0026line=1","ajax":false,"filename":"control.blade.php","line":"?"}},{"name":"admin::components.modal.index","param_count":null,"params":[],"start":1776238392.906434,"type":"blade","hash":"blade\/home\/users\/sandeep.prajapati\/Desktop\/unopim_test\/unopim\/packages\/Webkul\/Admin\/src\/Providers\/..\/Resources\/views\/components\/modal\/index.blade.phpadmin::components.modal.index","xdebug_link":{"url":"phpstorm:\/\/open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fmodal%2Findex.blade.php\u0026line=1","ajax":false,"filename":"index.blade.php","line":"?"}},{"name":"admin::components.form.control-group.error","param_count":null,"params":[],"start":1776238392.906959,"type":"blade","hash":"blade\/home\/users\/sandeep.prajapati\/Desktop\/unopim_test\/unopim\/packages\/Webkul\/Admin\/src\/Providers\/..\/Resources\/views\/components\/form\/control-group\/error.blade.phpadmin::components.form.control-group.error","xdebug_link":{"url":"phpstorm:\/\/open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fform%2Fcontrol-group%2Ferror.blade.php\u0026line=1","ajax":false,"filename":"error.blade.php","line":"?"}},{"name":"admin::components.form.control-group.index","param_count":null,"params":[],"start":1776238392.907342,"type":"blade","hash":"blade\/home\/users\/sandeep.prajapati\/Desktop\/unopim_test\/unopim\/packages\/Webkul\/Admin\/src\/Providers\/..\/Resources\/views\/components\/form\/control-group\/index.blade.phpadmin::components.form.control-group.index","xdebug_link":{"url":"phpstorm:\/\/open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fform%2Fcontrol-group%2Findex.blade.php\u0026line=1","ajax":false,"filename":"index.blade.php","line":"?"}},{"name":"admin::components.form.control-group.label","param_count":null,"params":[],"start":1776238392.907686,"type":"blade","hash":"blade\/home\/users\/sandeep.prajapati\/Desktop\/unopim_test\/unopim\/packages\/Webkul\/Admin\/src\/Providers\/..\/Resources\/views\/components\/form\/control-group\/label.blade.phpadmin::components.form.control-group.label","xdebug_link":{"url":"phpstorm:\/\/open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fform%2Fcontrol-group%2Flabel.blade.php\u0026line=1","ajax":false,"filename":"label.blade.php","line":"?"}},{"name":"admin::components.form.control-group.control","param_count":null,"params":[],"start":1776238392.907994,"type":"blade","hash":"blade\/home\/users\/sandeep.prajapati\/Desktop\/unopim_test\/unopim\/packages\/Webkul\/Admin\/src\/Providers\/..\/Resources\/views\/components\/form\/control-group\/control.blade.phpadmin::components.form.control-group.control","xdebug_link":{"url":"phpstorm:\/\/open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fform%2Fcontrol-group%2Fcontrol.blade.php\u0026line=1","ajax":false,"filename":"control.blade.php","line":"?"}},{"name":"admin::components.form.control-group.error","param_count":null,"params":[],"start":1776238392.909631,"type":"blade","hash":"blade\/home\/users\/sandeep.prajapati\/Desktop\/unopim_test\/unopim\/packages\/Webkul\/Admin\/src\/Providers\/..\/Resources\/views\/components\/form\/control-group\/error.blade.phpadmin::components.form.control-group.error","xdebug_link":{"url":"phpstorm:\/\/open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fform%2Fcontrol-group%2Ferror.blade.php\u0026line=1","ajax":false,"filename":"error.blade.php","line":"?"}},{"name":"admin::components.form.control-group.index","param_count":null,"params":[],"start":1776238392.910071,"type":"blade","hash":"blade\/home\/users\/sandeep.prajapati\/Desktop\/unopim_test\/unopim\/packages\/Webkul\/Admin\/src\/Providers\/..\/Resources\/views\/components\/form\/control-group\/index.blade.phpadmin::components.form.control-group.index","xdebug_link":{"url":"phpstorm:\/\/open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fform%2Fcontrol-group%2Findex.blade.php\u0026line=1","ajax":false,"filename":"index.blade.php","line":"?"}},{"name":"admin::components.form.index","param_count":null,"params":[],"start":1776238392.910509,"type":"blade","hash":"blade\/home\/users\/sandeep.prajapati\/Desktop\/unopim_test\/unopim\/packages\/Webkul\/Admin\/src\/Providers\/..\/Resources\/views\/components\/form\/index.blade.phpadmin::components.form.index","xdebug_link":{"url":"phpstorm:\/\/open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fform%2Findex.blade.php\u0026line=1","ajax":false,"filename":"index.blade.php","line":"?"}},{"name":"admin::components.layouts.anonymous","param_count":null,"params":[],"start":1776238392.911202,"type":"blade","hash":"blade\/home\/users\/sandeep.prajapati\/Desktop\/unopim_test\/unopim\/packages\/Webkul\/Admin\/src\/Providers\/..\/Resources\/views\/components\/layouts\/anonymous.blade.phpadmin::components.layouts.anonymous","xdebug_link":{"url":"phpstorm:\/\/open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Flayouts%2Fanonymous.blade.php\u0026line=1","ajax":false,"filename":"anonymous.blade.php","line":"?"}},{"name":"core::blade.tracer.style","param_count":null,"params":[],"start":1776238392.915007,"type":"blade","hash":"blade\/home\/users\/sandeep.prajapati\/Desktop\/unopim_test\/unopim\/packages\/Webkul\/Core\/src\/Providers\/..\/Resources\/views\/blade\/tracer\/style.blade.phpcore::blade.tracer.style","xdebug_link":{"url":"phpstorm:\/\/open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FCore%2Fsrc%2FResources%2Fviews%2Fblade%2Ftracer%2Fstyle.blade.php\u0026line=1","ajax":false,"filename":"style.blade.php","line":"?"}},{"name":"aws::icon-style","param_count":null,"params":[],"start":1776238392.915294,"type":"blade","hash":"blade\/home\/users\/sandeep.prajapati\/Desktop\/unopim_test\/unopim\/packages\/Webkul\/AWSIntegration\/src\/Providers\/..\/Resources\/views\/icon-style.blade.phpaws::icon-style","xdebug_link":{"url":"phpstorm:\/\/open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAWSIntegration%2Fsrc%2FResources%2Fviews%2Ficon-style.blade.php\u0026line=1","ajax":false,"filename":"icon-style.blade.php","line":"?"}},{"name":"admin::components.flash-group.index","param_count":null,"params":[],"start":1776238392.915895,"type":"blade","hash":"blade\/home\/users\/sandeep.prajapati\/Desktop\/unopim_test\/unopim\/packages\/Webkul\/Admin\/src\/Providers\/..\/Resources\/views\/components\/flash-group\/index.blade.phpadmin::components.flash-group.index","xdebug_link":{"url":"phpstorm:\/\/open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fflash-group%2Findex.blade.php\u0026line=1","ajax":false,"filename":"index.blade.php","line":"?"}},{"name":"admin::components.flash-group.item","param_count":null,"params":[],"start":1776238392.916257,"type":"blade","hash":"blade\/home\/users\/sandeep.prajapati\/Desktop\/unopim_test\/unopim\/packages\/Webkul\/Admin\/src\/Providers\/..\/Resources\/views\/components\/flash-group\/item.blade.phpadmin::components.flash-group.item","xdebug_link":{"url":"phpstorm:\/\/open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fflash-group%2Fitem.blade.php\u0026line=1","ajax":false,"filename":"item.blade.php","line":"?"}}]},"queries":{"count":0,"nb_statements":0,"nb_visible_statements":0,"nb_excluded_statements":0,"nb_failed_statements":0,"accumulated_duration":0,"accumulated_duration_str":"0\u03bcs","memory_usage":0,"memory_usage_str":null,"statements":[]},"models":{"data":[],"count":0,"key_map":{"retrieved":"Retrieved","created":"Created","updated":"Updated","deleted":"Deleted"},"is_counter":true,"badges":[]},"symfonymailer_mails":{"count":0,"mails":[]},"gate":{"count":0,"messages":[]},"request":{"data":{"status":"200 OK","full_url":"http:\/\/127.0.0.1:8000\/admin\/login","action_name":"admin.session.create","controller_action":"Webkul\\Admin\\Http\\Controllers\\User\\SessionController@create","uri":"GET admin\/login","controller":{"value":"Webkul\\Admin\\Http\\Controllers\\User\\SessionController@create","xdebug_link":{"url":"phpstorm:\/\/open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FHttp%2FControllers%2FUser%2FSessionController.php\u0026line=16","ajax":false,"filename":"SessionController.php","line":"16"}},"prefix":"admin\/login","file":{"value":"packages\/Webkul\/Admin\/src\/Http\/Controllers\/User\/SessionController.php:16-35","xdebug_link":{"url":"phpstorm:\/\/open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FHttp%2FControllers%2FUser%2FSessionController.php\u0026line=16","ajax":false,"filename":"SessionController.php","line":"16"}},"middleware":"web","duration":"267ms","peak_memory":"40.5MB","response":"text\/html; charset=utf-8","request_format":"html","request_query":"\u003Cpre class=sf-dump id=sf-dump-549069678 data-indent-pad=\u0022  \u0022\u003E[]\n\u003C\/pre\u003E\u003Cscript\u003ESfdump(\u0022sf-dump-549069678\u0022, {\u0022maxDepth\u0022:0})\u003C\/script\u003E\n","request_request":"\u003Cpre class=sf-dump id=sf-dump-1382319290 data-indent-pad=\u0022  \u0022\u003E[]\n\u003C\/pre\u003E\u003Cscript\u003ESfdump(\u0022sf-dump-1382319290\u0022, {\u0022maxDepth\u0022:0})\u003C\/script\u003E\n","request_headers":"\u003Cpre class=sf-dump id=sf-dump-401395047 data-indent-pad=\u0022  \u0022\u003E\u003Cspan class=sf-dump-note\u003Earray:14\u003C\/span\u003E [\u003Csamp data-depth=1 class=sf-dump-expanded\u003E\n  \u0022\u003Cspan class=sf-dump-key\u003Ehost\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002214 characters\u0022\u003E127.0.0.1:8000\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Econnection\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002210 characters\u0022\u003Ekeep-alive\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Eupgrade-insecure-requests\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str\u003E1\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Euser-agent\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u0022112 characters\u0022\u003EMozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) HeadlessChrome\/139.0.7258.5 Safari\/537.36\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Eaccept\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u0022135 characters\u0022\u003Etext\/html,application\/xhtml+xml,application\/xml;q=0.9,image\/avif,image\/webp,image\/apng,*\/*;q=0.8,application\/signed-exchange;v=b3;q=0.7\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Esec-fetch-site\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u00224 characters\u0022\u003Enone\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Esec-fetch-mode\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u00228 characters\u0022\u003Enavigate\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Esec-fetch-user\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u00222 characters\u0022\u003E?1\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Esec-fetch-dest\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u00228 characters\u0022\u003Edocument\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Esec-ch-ua\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002266 characters\u0022\u003E\u0026quot;Not;A=Brand\u0026quot;;v=\u0026quot;99\u0026quot;, \u0026quot;HeadlessChrome\u0026quot;;v=\u0026quot;139\u0026quot;, \u0026quot;Chromium\u0026quot;;v=\u0026quot;139\u0026quot;\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Esec-ch-ua-mobile\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u00222 characters\u0022\u003E?0\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Esec-ch-ua-platform\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u00227 characters\u0022\u003E\u0026quot;Linux\u0026quot;\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Eaccept-encoding\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002223 characters\u0022\u003Egzip, deflate, br, zstd\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Ecookie\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u0022712 characters\u0022\u003EXSRF-TOKEN=eyJpdiI6Ik5PaU80eC9QTkcwYlhEeHljL2pVUWc9PSIsInZhbHVlIjoiMkx4M3BVM1hKcmcwMnN1WVpVb3pRTDVwZGtFRVRyU1RWQnRhM1B0ZzhyRTUxbERldDZ6WDg0R1FDSk5wL3NPbkVnUHVua2hDajBDeThzS25TMVJwZXN2YmM3YnJhck1tekUyWmFlTVVQcUFOdHJtM2FORE5aMGFsUG5tZnR4Q3IiLCJtYWMiOiJhMWQwMGU2MmFkYzJhZGMwNmY4MGYxMzZlMGFlMmY2N2UyMjkyZjJlOGQ2YjhkMzAwZWIzNmI2ZTNhMGIxZGQ5IiwidGFnIjoiIn0%3D; unopim_session=eyJpdiI6Ik5qS2FhbGF6V2F2ckp0L2ZCVitkMmc9PSIsInZhbHVlIjoiK3FtYko4bDNPbUhzeFRLczBxVVBqZ2gyQ3ZLb1ZDQ2xHM0ZmZ0crYUxTaGJZTC9OQzlUNjBaNVdtRVJYQXpkLzZXOGpyNmlNVE1RcFlVZjMySU5GTkRRc3VxWlpJdGRqWUFjTDNYakEyM1JFSzNwSUlyZTZuQXpSWlNFcjN2eGsiLCJtYWMiOiJlMzYyMGU0NGMxZGE0YWI4NDcyNGE5NjE0OGYzNzIyNjI0YjJmMDM5YzMwNGExZmYxMTMyYWMyZjZiMjg5ZjBhIiwidGFnIjoiIn0%3D\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n\u003C\/samp\u003E]\n\u003C\/pre\u003E\u003Cscript\u003ESfdump(\u0022sf-dump-401395047\u0022, {\u0022maxDepth\u0022:0})\u003C\/script\u003E\n","request_cookies":"\u003Cpre class=sf-dump id=sf-dump-1596616523 data-indent-pad=\u0022  \u0022\u003E\u003Cspan class=sf-dump-note\u003Earray:2\u003C\/span\u003E [\u003Csamp data-depth=1 class=sf-dump-expanded\u003E\n  \u0022\u003Cspan class=sf-dump-key\u003EXSRF-TOKEN\u003C\/span\u003E\u0022 =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002240 characters\u0022\u003EW6fUy1nUqlYzLkO5roBEMrVlWO9hdqlgMEy6xUd9\u003C\/span\u003E\u0022\n  \u0022\u003Cspan class=sf-dump-key\u003Eunopim_session\u003C\/span\u003E\u0022 =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002240 characters\u0022\u003EtW8Yk72QLsQfhjRX76v1oqbMdk6eYyXGmsAUzIlr\u003C\/span\u003E\u0022\n\u003C\/samp\u003E]\n\u003C\/pre\u003E\u003Cscript\u003ESfdump(\u0022sf-dump-1596616523\u0022, {\u0022maxDepth\u0022:0})\u003C\/script\u003E\n","response_headers":"\u003Cpre class=sf-dump id=sf-dump-74370836 data-indent-pad=\u0022  \u0022\u003E\u003Cspan class=sf-dump-note\u003Earray:3\u003C\/span\u003E [\u003Csamp data-depth=1 class=sf-dump-expanded\u003E\n  \u0022\u003Cspan class=sf-dump-key\u003Econtent-type\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002224 characters\u0022\u003Etext\/html; charset=utf-8\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Ecache-control\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002217 characters\u0022\u003Eno-cache, private\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Edate\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u003Cspan class=sf-dump-index\u003E0\u003C\/span\u003E =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002229 characters\u0022\u003EWed, 15 Apr 2026 07:33:12 GMT\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n\u003C\/samp\u003E]\n\u003C\/pre\u003E\u003Cscript\u003ESfdump(\u0022sf-dump-74370836\u0022, {\u0022maxDepth\u0022:0})\u003C\/script\u003E\n","session_attributes":"\u003Cpre class=sf-dump id=sf-dump-793700950 data-indent-pad=\u0022  \u0022\u003E\u003Cspan class=sf-dump-note\u003Earray:5\u003C\/span\u003E [\u003Csamp data-depth=1 class=sf-dump-expanded\u003E\n  \u0022\u003Cspan class=sf-dump-key\u003E_token\u003C\/span\u003E\u0022 =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002240 characters\u0022\u003EW6fUy1nUqlYzLkO5roBEMrVlWO9hdqlgMEy6xUd9\u003C\/span\u003E\u0022\n  \u0022\u003Cspan class=sf-dump-key\u003EPHPDEBUGBAR_STACK_DATA\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u0022\u003Cspan class=sf-dump-key\u003E01KP80XXA7ZCSD6BBTK2GK2NM7\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-const\u003Enull\u003C\/span\u003E\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003E_previous\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:2\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u0022\u003Cspan class=sf-dump-key\u003Eurl\u003C\/span\u003E\u0022 =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002237 characters\u0022\u003Ehttp:\/\/127.0.0.1:8000\/admin\/dashboard\u003C\/span\u003E\u0022\n    \u0022\u003Cspan class=sf-dump-key\u003Eroute\u003C\/span\u003E\u0022 =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002221 characters\u0022\u003Eadmin.dashboard.index\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003E_flash\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:2\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u0022\u003Cspan class=sf-dump-key\u003Eold\u003C\/span\u003E\u0022 =\u003E []\n    \u0022\u003Cspan class=sf-dump-key\u003Enew\u003C\/span\u003E\u0022 =\u003E []\n  \u003C\/samp\u003E]\n  \u0022\u003Cspan class=sf-dump-key\u003Eurl\u003C\/span\u003E\u0022 =\u003E \u003Cspan class=sf-dump-note\u003Earray:1\u003C\/span\u003E [\u003Csamp data-depth=2 class=sf-dump-compact\u003E\n    \u0022\u003Cspan class=sf-dump-key\u003Eintended\u003C\/span\u003E\u0022 =\u003E \u0022\u003Cspan class=sf-dump-str title=\u002237 characters\u0022\u003Ehttp:\/\/127.0.0.1:8000\/admin\/dashboard\u003C\/span\u003E\u0022\n  \u003C\/samp\u003E]\n\u003C\/samp\u003E]\n\u003C\/pre\u003E\u003Cscript\u003ESfdump(\u0022sf-dump-793700950\u0022, {\u0022maxDepth\u0022:0})\u003C\/script\u003E\n"},"tooltip":{"status":"200 OK","full_url":"http:\/\/127.0.0.1:8000\/admin\/login","action_name":"admin.session.create","controller_action":"Webkul\\Admin\\Http\\Controllers\\User\\SessionController@create"},"badge":null}}, "01KP80XXJP24WYV39XP4PT2Y1H");
+
+</script><div class="phpdebugbar phpdebugbar-minimized" data-bodymarginbottom="true" data-theme="light" data-openbtnposition="bottomLeft" data-hideemptytabs="true"><div class="phpdebugbar-drag-capture"></div><div class="phpdebugbar-resize-handle"></div><div class="phpdebugbar-header"><a class="phpdebugbar-restore-btn"></a><div class="phpdebugbar-header-left"><a class="phpdebugbar-tab" data-empty="false" data-collector="request"><i class="phpdebugbar-fa phpdebugbar-fa-tags"></i><span class="phpdebugbar-text">Request</span><span class="phpdebugbar-badge">302 Found</span></a><a class="phpdebugbar-tab" data-empty="false" data-collector="modules"><i class="phpdebugbar-fa phpdebugbar-fa-cubes"></i><span class="phpdebugbar-text">Modules</span><span class="phpdebugbar-badge phpdebugbar-visible">3</span></a><a class="phpdebugbar-tab" data-empty="true" data-collector="messages"><i class="phpdebugbar-fa phpdebugbar-fa-list-alt"></i><span class="phpdebugbar-text">Messages</span><span class="phpdebugbar-badge"></span></a><a class="phpdebugbar-tab" data-empty="false" data-collector="timeline"><i class="phpdebugbar-fa phpdebugbar-fa-tasks"></i><span class="phpdebugbar-text">Timeline</span><span class="phpdebugbar-badge"></span></a><a class="phpdebugbar-tab" data-empty="true" data-collector="exceptions"><i class="phpdebugbar-fa phpdebugbar-fa-bug"></i><span class="phpdebugbar-text">Exceptions</span><span class="phpdebugbar-badge"></span></a><a class="phpdebugbar-tab" data-empty="false" data-collector="views"><i class="phpdebugbar-fa phpdebugbar-fa-leaf"></i><span class="phpdebugbar-text">Views</span><span class="phpdebugbar-badge phpdebugbar-visible">16</span></a><a class="phpdebugbar-tab" data-empty="true" data-collector="queries"><i class="phpdebugbar-fa phpdebugbar-fa-database"></i><span class="phpdebugbar-text">Queries</span><span class="phpdebugbar-badge phpdebugbar-visible">0</span></a><a class="phpdebugbar-tab" data-empty="true" data-collector="models"><i class="phpdebugbar-fa phpdebugbar-fa-cubes"></i><span class="phpdebugbar-text">Models</span><span class="phpdebugbar-badge phpdebugbar-visible">0</span></a><a class="phpdebugbar-tab" data-empty="true" data-collector="emails"><i class="phpdebugbar-fa phpdebugbar-fa-inbox"></i><span class="phpdebugbar-text">Mails</span><span class="phpdebugbar-badge"></span></a><a class="phpdebugbar-tab" data-empty="true" data-collector="gate"><i class="phpdebugbar-fa phpdebugbar-fa-list-alt"></i><span class="phpdebugbar-text">Gate</span><span class="phpdebugbar-badge"></span></a></div><div class="phpdebugbar-header-right"><a class="phpdebugbar-close-btn"></a><a class="phpdebugbar-minimize-btn"></a><a class="phpdebugbar-maximize-btn"></a><a class="phpdebugbar-tab phpdebugbar-tab-settings" data-collector="__settings"><i class="phpdebugbar-fa phpdebugbar-fa-sliders"></i><span class="phpdebugbar-text">Settings</span><span class="phpdebugbar-badge"></span></a><a class="phpdebugbar-open-btn" style=""></a><a class="phpdebugbar-tab phpdebugbar-tab-history" data-collector="__datasets" style="" data-empty="false"><i class="phpdebugbar-fa phpdebugbar-fa-history"></i><span class="phpdebugbar-text">Request history</span><span class="phpdebugbar-badge phpdebugbar-visible">2</span></a><select class="phpdebugbar-datasets-switcher" name="datasets-switcher" style="display: inline-block;"><option value="01KP80XXA7ZCSD6BBTK2GK2NM7">#1 dashboard (stacked) (07:33:12)</option><option value="01KP80XXJP24WYV39XP4PT2Y1H">#2 login (07:33:12)</option></select><span class="phpdebugbar-indicator" style="cursor: pointer;"><i class="phpdebugbar-fa phpdebugbar-fa-clock-o"></i><span class="phpdebugbar-text">267ms</span><span class="phpdebugbar-tooltip">Request Duration</span></span><span class="phpdebugbar-indicator"><i class="phpdebugbar-fa phpdebugbar-fa-cogs"></i><span class="phpdebugbar-text">40MB</span><span class="phpdebugbar-tooltip">Memory Usage</span></span><span class="phpdebugbar-indicator"><i class="phpdebugbar-fa phpdebugbar-fa-laravel phpdebugbar-fab"></i><span class="phpdebugbar-text">12.x</span><span class="phpdebugbar-tooltip"><dl><dt>Laravel Version</dt><dd>12.55.1</dd><dt>PHP Version</dt><dd>8.3.29</dd><dt>Environment</dt><dd>local</dd><dt>Debug Mode</dt><dd>Enabled</dd><dt>URL</dt><dd>localhost:8000</dd><dt>Timezone</dt><dd>UTC</dd><dt>Locale</dt><dd>en_US</dd></dl></span></span><span class="phpdebugbar-indicator" style="cursor: pointer;"><i class="phpdebugbar-fa phpdebugbar-fa-share"></i><span class="phpdebugbar-text">GET admin/login</span><span class="phpdebugbar-tooltip"><dl><dt>status</dt><dd>200 OK</dd><dt>full_url</dt><dd>http://127.0.0.1:8000/admin/login</dd><dt>action_name</dt><dd>admin.session.create</dd><dt>controller_action</dt><dd>Webkul\Admin\Http\Controllers\User\SessionController@create</dd></dl></span></span></div></div><div class="phpdebugbar-body" style="height: 300px;"><div class="phpdebugbar-panel" data-collector="__settings"><form class="phpdebugbar-settings"><div class="phpdebugbar-form-row"><div class="phpdebugbar-form-label">Theme</div><div class="phpdebugbar-form-input"><select><option value="auto">Auto (System preference)</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div><div class="phpdebugbar-form-row"><div class="phpdebugbar-form-label">Open Button Position</div><div class="phpdebugbar-form-input"><select><option value="bottomLeft">Bottom Left</option><option value="bottomRight">Bottom Right</option><option value="topLeft">Top Left</option><option value="topRight">Top Right</option></select></div></div><div class="phpdebugbar-form-row"><div class="phpdebugbar-form-label">Hide Empty Tabs</div><div class="phpdebugbar-form-input"><label><input type="checkbox">Hide empty tabs until they have data</label></div></div><div class="phpdebugbar-form-row"><div class="phpdebugbar-form-label">Autoshow</div><div class="phpdebugbar-form-input"><label><input type="checkbox">Automatically show new incoming Ajax requests</label></div></div><div class="phpdebugbar-form-row"><div class="phpdebugbar-form-label">Reset to defaults</div><div class="phpdebugbar-form-input"><button>Reset settings</button></div></div></form></div><div class="phpdebugbar-panel" data-collector="request"><dl class="phpdebugbar-widgets-kvlist phpdebugbar-widgets-htmlvarlist"><dt class="phpdebugbar-widgets-key"><span title="status">status</span></dt><dd class="phpdebugbar-widgets-value">200 OK</dd><dt class="phpdebugbar-widgets-key"><span title="full_url">full_url</span></dt><dd class="phpdebugbar-widgets-value">http://127.0.0.1:8000/admin/login</dd><dt class="phpdebugbar-widgets-key"><span title="action_name">action_name</span></dt><dd class="phpdebugbar-widgets-value">admin.session.create</dd><dt class="phpdebugbar-widgets-key"><span title="controller_action">controller_action</span></dt><dd class="phpdebugbar-widgets-value">Webkul\Admin\Http\Controllers\User\SessionController@create</dd><dt class="phpdebugbar-widgets-key"><span title="uri">uri</span></dt><dd class="phpdebugbar-widgets-value">GET admin/login</dd><dt class="phpdebugbar-widgets-key"><span title="controller">controller</span></dt><dd class="phpdebugbar-widgets-value">Webkul\Admin\Http\Controllers\User\SessionController@create<span class="phpdebugbar-widgets-filename">SessionController.php#16<a href="phpstorm://open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FHttp%2FControllers%2FUser%2FSessionController.php&amp;line=16" class="phpdebugbar-widgets-editor-link"></a></span></dd><dt class="phpdebugbar-widgets-key"><span title="prefix">prefix</span></dt><dd class="phpdebugbar-widgets-value">admin/login</dd><dt class="phpdebugbar-widgets-key"><span title="file">file</span></dt><dd class="phpdebugbar-widgets-value">packages/Webkul/Admin/src/Http/Controllers/User/SessionController.php:16-35<span class="phpdebugbar-widgets-filename">SessionController.php#16<a href="phpstorm://open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FHttp%2FControllers%2FUser%2FSessionController.php&amp;line=16" class="phpdebugbar-widgets-editor-link"></a></span></dd><dt class="phpdebugbar-widgets-key"><span title="middleware">middleware</span></dt><dd class="phpdebugbar-widgets-value">web</dd><dt class="phpdebugbar-widgets-key"><span title="duration">duration</span></dt><dd class="phpdebugbar-widgets-value">267ms</dd><dt class="phpdebugbar-widgets-key"><span title="peak_memory">peak_memory</span></dt><dd class="phpdebugbar-widgets-value">40.5MB</dd><dt class="phpdebugbar-widgets-key"><span title="response">response</span></dt><dd class="phpdebugbar-widgets-value">text/html; charset=utf-8</dd><dt class="phpdebugbar-widgets-key"><span title="request_format">request_format</span></dt><dd class="phpdebugbar-widgets-value">html</dd><dt class="phpdebugbar-widgets-key"><span title="request_query">request_query</span></dt><dd class="phpdebugbar-widgets-value"><pre class="sf-dump" id="sf-dump-549069678" data-indent-pad="  ">[]
+</pre><script>Sfdump("sf-dump-549069678", {"maxDepth":0})</script>
+</dd><dt class="phpdebugbar-widgets-key"><span title="request_request">request_request</span></dt><dd class="phpdebugbar-widgets-value"><pre class="sf-dump" id="sf-dump-1382319290" data-indent-pad="  ">[]
+</pre><script>Sfdump("sf-dump-1382319290", {"maxDepth":0})</script>
+</dd><dt class="phpdebugbar-widgets-key"><span title="request_headers">request_headers</span></dt><dd class="phpdebugbar-widgets-value"><pre class="sf-dump" id="sf-dump-401395047" data-indent-pad="  " tabindex="0"><div class="sf-dump-search-wrapper sf-dump-search-hidden"> <input type="text" class="sf-dump-search-input"> <span class="sf-dump-search-count">0 of 0</span> <button type="button" class="sf-dump-search-input-previous" tabindex="-1"> <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1683 1331l-166 165q-19 19-45 19t-45-19L896 965l-531 531q-19 19-45 19t-45-19l-166-165q-19-19-19-45.5t19-45.5l742-741q19-19 45-19t45 19l742 741q19 19 19 45.5t-19 45.5z"></path></svg> </button> <button type="button" class="sf-dump-search-input-next" tabindex="-1"> <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1683 808l-742 741q-19 19-45 19t-45-19L109 808q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"></path></svg> </button> </div><span class="sf-dump-note">array:14</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▼</span></a><samp data-depth="1" class="sf-dump-expanded">
+  "<span class="sf-dump-key">host</span>" =&gt; <span class="sf-dump-note">array:1</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▶</span></a><samp data-depth="2" class="sf-dump-compact">
+    <span class="sf-dump-index">0</span> =&gt; "<span class="sf-dump-str" title="14 characters">127.0.0.1:8000</span>"
+  </samp>]
+  "<span class="sf-dump-key">connection</span>" =&gt; <span class="sf-dump-note">array:1</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▶</span></a><samp data-depth="2" class="sf-dump-compact">
+    <span class="sf-dump-index">0</span> =&gt; "<span class="sf-dump-str" title="10 characters">keep-alive</span>"
+  </samp>]
+  "<span class="sf-dump-key">upgrade-insecure-requests</span>" =&gt; <span class="sf-dump-note">array:1</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▶</span></a><samp data-depth="2" class="sf-dump-compact">
+    <span class="sf-dump-index">0</span> =&gt; "<span class="sf-dump-str">1</span>"
+  </samp>]
+  "<span class="sf-dump-key">user-agent</span>" =&gt; <span class="sf-dump-note">array:1</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▶</span></a><samp data-depth="2" class="sf-dump-compact">
+    <span class="sf-dump-index">0</span> =&gt; "<span class="sf-dump-str" title="112 characters">Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/139.0.7258.5 Safari/537.36</span>"
+  </samp>]
+  "<span class="sf-dump-key">accept</span>" =&gt; <span class="sf-dump-note">array:1</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▶</span></a><samp data-depth="2" class="sf-dump-compact">
+    <span class="sf-dump-index">0</span> =&gt; "<span class="sf-dump-str" title="135 characters">text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7</span>"
+  </samp>]
+  "<span class="sf-dump-key">sec-fetch-site</span>" =&gt; <span class="sf-dump-note">array:1</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▶</span></a><samp data-depth="2" class="sf-dump-compact">
+    <span class="sf-dump-index">0</span> =&gt; "<span class="sf-dump-str" title="4 characters">none</span>"
+  </samp>]
+  "<span class="sf-dump-key">sec-fetch-mode</span>" =&gt; <span class="sf-dump-note">array:1</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▶</span></a><samp data-depth="2" class="sf-dump-compact">
+    <span class="sf-dump-index">0</span> =&gt; "<span class="sf-dump-str" title="8 characters">navigate</span>"
+  </samp>]
+  "<span class="sf-dump-key">sec-fetch-user</span>" =&gt; <span class="sf-dump-note">array:1</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▶</span></a><samp data-depth="2" class="sf-dump-compact">
+    <span class="sf-dump-index">0</span> =&gt; "<span class="sf-dump-str" title="2 characters">?1</span>"
+  </samp>]
+  "<span class="sf-dump-key">sec-fetch-dest</span>" =&gt; <span class="sf-dump-note">array:1</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▶</span></a><samp data-depth="2" class="sf-dump-compact">
+    <span class="sf-dump-index">0</span> =&gt; "<span class="sf-dump-str" title="8 characters">document</span>"
+  </samp>]
+  "<span class="sf-dump-key">sec-ch-ua</span>" =&gt; <span class="sf-dump-note">array:1</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▶</span></a><samp data-depth="2" class="sf-dump-compact">
+    <span class="sf-dump-index">0</span> =&gt; "<span class="sf-dump-str" title="66 characters">"Not;A=Brand";v="99", "HeadlessChrome";v="139", "Chromium";v="139"</span>"
+  </samp>]
+  "<span class="sf-dump-key">sec-ch-ua-mobile</span>" =&gt; <span class="sf-dump-note">array:1</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▶</span></a><samp data-depth="2" class="sf-dump-compact">
+    <span class="sf-dump-index">0</span> =&gt; "<span class="sf-dump-str" title="2 characters">?0</span>"
+  </samp>]
+  "<span class="sf-dump-key">sec-ch-ua-platform</span>" =&gt; <span class="sf-dump-note">array:1</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▶</span></a><samp data-depth="2" class="sf-dump-compact">
+    <span class="sf-dump-index">0</span> =&gt; "<span class="sf-dump-str" title="7 characters">"Linux"</span>"
+  </samp>]
+  "<span class="sf-dump-key">accept-encoding</span>" =&gt; <span class="sf-dump-note">array:1</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▶</span></a><samp data-depth="2" class="sf-dump-compact">
+    <span class="sf-dump-index">0</span> =&gt; "<span class="sf-dump-str" title="23 characters">gzip, deflate, br, zstd</span>"
+  </samp>]
+  "<span class="sf-dump-key">cookie</span>" =&gt; <span class="sf-dump-note">array:1</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▶</span></a><samp data-depth="2" class="sf-dump-compact">
+    <span class="sf-dump-index">0</span> =&gt; "<span class="sf-dump-str sf-dump-str-collapse" title="712 characters"><span class="sf-dump-str-collapse">XSRF-TOKEN=eyJpdiI6Ik5PaU80eC9QTkcwYlhEeHljL2pVUWc9PSIsInZhbHVlIjoiMkx4M3BVM1hKcmcwMnN1WVpVb3pRTDVwZGtFRVRyU1RWQnRhM1B0ZzhyRTUxbERldDZ6WDg0R1FDSk5wL3NPbkVnUHVua2hDajBDeThzS25TMVJwZXN2YmM3YnJhck1tekUyWmFlTVVQcUFOdHJtM2FORE5aMGFsUG5tZnR4Q3IiLCJtYWMiOiJhMWQwMGU2MmFkYzJhZGMwNmY4MGYxMzZlMGFlMmY2N2UyMjkyZjJlOGQ2YjhkMzAwZWIzNmI2ZTNhMGIxZGQ5IiwidGFnIjoiIn0%3D; unopim_session=eyJpdiI6Ik5qS2FhbGF6V2F2ckp0L2ZCVitkMmc9PSIsInZhbHVlIjoiK3FtYko4bDNPbUhzeFRLczBxVVBqZ2gyQ3ZLb1ZDQ2xHM0ZmZ0crYUxTaGJZTC9OQzlUNjBaNVdtRVJYQXpkLzZXOGpyNmlNVE1RcFlVZjMySU5GTkRRc3VxWlpJdGRqWUFjTDNYakEyM1JFSzNwSUlyZTZuQXpSWlNFcjN2eGsiLCJtYWMiOiJlMzYyMGU0NGMxZGE0YWI4NDcyNGE5NjE0OGYzNzIyNjI0YjJmMDM5YzMwNGExZmYxMTMyYWMyZjZiMjg5ZjBhIiwidGFnIjoiIn0%3D<a class="sf-dump-ref sf-dump-str-toggle" title="Collapse"> ◀</a></span><span class="sf-dump-str-expand">XSRF-TOKEN=eyJpdiI6Ik5PaU80eC9QTkcwYlhEeHljL2pVUWc9PSIsInZhbHVlIjoiMkx4M3BVM1hKcmcwMnN1WVpVb3pRTDVwZGtFRVRyU1RWQnRhM1B0ZzhyRTUxbERldDZ6WDg0R1FDSk5wL3NPbkVnUHVua<a class="sf-dump-ref sf-dump-str-toggle" title="552 remaining characters"> ▶</a></span></span>"
+  </samp>]
+</samp>]
+</pre><script>Sfdump("sf-dump-401395047", {"maxDepth":0})</script>
+</dd><dt class="phpdebugbar-widgets-key"><span title="request_cookies">request_cookies</span></dt><dd class="phpdebugbar-widgets-value"><pre class="sf-dump" id="sf-dump-1596616523" data-indent-pad="  " tabindex="0"><div class="sf-dump-search-wrapper sf-dump-search-hidden"> <input type="text" class="sf-dump-search-input"> <span class="sf-dump-search-count">0 of 0</span> <button type="button" class="sf-dump-search-input-previous" tabindex="-1"> <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1683 1331l-166 165q-19 19-45 19t-45-19L896 965l-531 531q-19 19-45 19t-45-19l-166-165q-19-19-19-45.5t19-45.5l742-741q19-19 45-19t45 19l742 741q19 19 19 45.5t-19 45.5z"></path></svg> </button> <button type="button" class="sf-dump-search-input-next" tabindex="-1"> <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1683 808l-742 741q-19 19-45 19t-45-19L109 808q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"></path></svg> </button> </div><span class="sf-dump-note">array:2</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▼</span></a><samp data-depth="1" class="sf-dump-expanded">
+  "<span class="sf-dump-key">XSRF-TOKEN</span>" =&gt; "<span class="sf-dump-str" title="40 characters">W6fUy1nUqlYzLkO5roBEMrVlWO9hdqlgMEy6xUd9</span>"
+  "<span class="sf-dump-key">unopim_session</span>" =&gt; "<span class="sf-dump-str" title="40 characters">tW8Yk72QLsQfhjRX76v1oqbMdk6eYyXGmsAUzIlr</span>"
+</samp>]
+</pre><script>Sfdump("sf-dump-1596616523", {"maxDepth":0})</script>
+</dd><dt class="phpdebugbar-widgets-key"><span title="response_headers">response_headers</span></dt><dd class="phpdebugbar-widgets-value"><pre class="sf-dump" id="sf-dump-74370836" data-indent-pad="  " tabindex="0"><div class="sf-dump-search-wrapper sf-dump-search-hidden"> <input type="text" class="sf-dump-search-input"> <span class="sf-dump-search-count">0 of 0</span> <button type="button" class="sf-dump-search-input-previous" tabindex="-1"> <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1683 1331l-166 165q-19 19-45 19t-45-19L896 965l-531 531q-19 19-45 19t-45-19l-166-165q-19-19-19-45.5t19-45.5l742-741q19-19 45-19t45 19l742 741q19 19 19 45.5t-19 45.5z"></path></svg> </button> <button type="button" class="sf-dump-search-input-next" tabindex="-1"> <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1683 808l-742 741q-19 19-45 19t-45-19L109 808q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"></path></svg> </button> </div><span class="sf-dump-note">array:3</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▼</span></a><samp data-depth="1" class="sf-dump-expanded">
+  "<span class="sf-dump-key">content-type</span>" =&gt; <span class="sf-dump-note">array:1</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▶</span></a><samp data-depth="2" class="sf-dump-compact">
+    <span class="sf-dump-index">0</span> =&gt; "<span class="sf-dump-str" title="24 characters">text/html; charset=utf-8</span>"
+  </samp>]
+  "<span class="sf-dump-key">cache-control</span>" =&gt; <span class="sf-dump-note">array:1</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▶</span></a><samp data-depth="2" class="sf-dump-compact">
+    <span class="sf-dump-index">0</span> =&gt; "<span class="sf-dump-str" title="17 characters">no-cache, private</span>"
+  </samp>]
+  "<span class="sf-dump-key">date</span>" =&gt; <span class="sf-dump-note">array:1</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▶</span></a><samp data-depth="2" class="sf-dump-compact">
+    <span class="sf-dump-index">0</span> =&gt; "<span class="sf-dump-str" title="29 characters">Wed, 15 Apr 2026 07:33:12 GMT</span>"
+  </samp>]
+</samp>]
+</pre><script>Sfdump("sf-dump-74370836", {"maxDepth":0})</script>
+</dd><dt class="phpdebugbar-widgets-key"><span title="session_attributes">session_attributes</span></dt><dd class="phpdebugbar-widgets-value"><pre class="sf-dump" id="sf-dump-793700950" data-indent-pad="  " tabindex="0"><div class="sf-dump-search-wrapper sf-dump-search-hidden"> <input type="text" class="sf-dump-search-input"> <span class="sf-dump-search-count">0 of 0</span> <button type="button" class="sf-dump-search-input-previous" tabindex="-1"> <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1683 1331l-166 165q-19 19-45 19t-45-19L896 965l-531 531q-19 19-45 19t-45-19l-166-165q-19-19-19-45.5t19-45.5l742-741q19-19 45-19t45 19l742 741q19 19 19 45.5t-19 45.5z"></path></svg> </button> <button type="button" class="sf-dump-search-input-next" tabindex="-1"> <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1683 808l-742 741q-19 19-45 19t-45-19L109 808q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"></path></svg> </button> </div><span class="sf-dump-note">array:5</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▼</span></a><samp data-depth="1" class="sf-dump-expanded">
+  "<span class="sf-dump-key">_token</span>" =&gt; "<span class="sf-dump-str" title="40 characters">W6fUy1nUqlYzLkO5roBEMrVlWO9hdqlgMEy6xUd9</span>"
+  "<span class="sf-dump-key">PHPDEBUGBAR_STACK_DATA</span>" =&gt; <span class="sf-dump-note">array:1</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▶</span></a><samp data-depth="2" class="sf-dump-compact">
+    "<span class="sf-dump-key">01KP80XXA7ZCSD6BBTK2GK2NM7</span>" =&gt; <span class="sf-dump-const">null</span>
+  </samp>]
+  "<span class="sf-dump-key">_previous</span>" =&gt; <span class="sf-dump-note">array:2</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▶</span></a><samp data-depth="2" class="sf-dump-compact">
+    "<span class="sf-dump-key">url</span>" =&gt; "<span class="sf-dump-str" title="37 characters">http://127.0.0.1:8000/admin/dashboard</span>"
+    "<span class="sf-dump-key">route</span>" =&gt; "<span class="sf-dump-str" title="21 characters">admin.dashboard.index</span>"
+  </samp>]
+  "<span class="sf-dump-key">_flash</span>" =&gt; <span class="sf-dump-note">array:2</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▶</span></a><samp data-depth="2" class="sf-dump-compact">
+    "<span class="sf-dump-key">old</span>" =&gt; []
+    "<span class="sf-dump-key">new</span>" =&gt; []
+  </samp>]
+  "<span class="sf-dump-key">url</span>" =&gt; <span class="sf-dump-note">array:1</span> [<a class="sf-dump-ref sf-dump-toggle" title="[Ctrl+click] Expand all children"><span>▶</span></a><samp data-depth="2" class="sf-dump-compact">
+    "<span class="sf-dump-key">intended</span>" =&gt; "<span class="sf-dump-str" title="37 characters">http://127.0.0.1:8000/admin/dashboard</span>"
+  </samp>]
+</samp>]
+</pre><script>Sfdump("sf-dump-793700950", {"maxDepth":0})</script>
+</dd></dl></div><div class="phpdebugbar-panel" data-collector="modules"><div class="phpdebugbar-widgets-modules"><ul class="phpdebugbar-widgets-list"><li class="phpdebugbar-widgets-list-item" style="cursor: pointer;"><strong class="phpdebugbar-widgets-module phpdebugbar-widgets-name">Webkul\Admin</strong><span title="Queries" class="phpdebugbar-fa phpdebugbar-widgets-queries">0</span><span title="Views" class="phpdebugbar-fa phpdebugbar-widgets-views">14</span><span title="Models" class="phpdebugbar-fa phpdebugbar-widgets-models">0</span><table class="phpdebugbar-widgets-params"><tbody><tr><th colspan="2">Details</th></tr><tr><td class="phpdebugbar-widgets-name">Views</td><td class="phpdebugbar-widgets-value"><ul class="phpdebugbar-widgets-table-list"><li class="phpdebugbar-widgets-table-list-item">admin::users.sessions.create (packages/Webkul/Admin/src/Resources/views/users/sessions/create.blade.php)</li><li class="phpdebugbar-widgets-table-list-item">admin::components.form.control-group.label (packages/Webkul/Admin/src/Resources/views/components/form/control-group/label.blade.php)</li><li class="phpdebugbar-widgets-table-list-item">admin::components.form.control-group.control (packages/Webkul/Admin/src/Resources/views/components/form/control-group/control.blade.php)</li><li class="phpdebugbar-widgets-table-list-item">admin::components.modal.index (packages/Webkul/Admin/src/Resources/views/components/modal/index.blade.php)</li><li class="phpdebugbar-widgets-table-list-item">admin::components.form.control-group.error (packages/Webkul/Admin/src/Resources/views/components/form/control-group/error.blade.php)</li><li class="phpdebugbar-widgets-table-list-item">admin::components.form.control-group.index (packages/Webkul/Admin/src/Resources/views/components/form/control-group/index.blade.php)</li><li class="phpdebugbar-widgets-table-list-item">admin::components.form.control-group.label (packages/Webkul/Admin/src/Resources/views/components/form/control-group/label.blade.php)</li><li class="phpdebugbar-widgets-table-list-item">admin::components.form.control-group.control (packages/Webkul/Admin/src/Resources/views/components/form/control-group/control.blade.php)</li><li class="phpdebugbar-widgets-table-list-item">admin::components.form.control-group.error (packages/Webkul/Admin/src/Resources/views/components/form/control-group/error.blade.php)</li><li class="phpdebugbar-widgets-table-list-item">admin::components.form.control-group.index (packages/Webkul/Admin/src/Resources/views/components/form/control-group/index.blade.php)</li><li class="phpdebugbar-widgets-table-list-item">admin::components.form.index (packages/Webkul/Admin/src/Resources/views/components/form/index.blade.php)</li><li class="phpdebugbar-widgets-table-list-item">admin::components.layouts.anonymous (packages/Webkul/Admin/src/Resources/views/components/layouts/anonymous.blade.php)</li><li class="phpdebugbar-widgets-table-list-item">admin::components.flash-group.index (packages/Webkul/Admin/src/Resources/views/components/flash-group/index.blade.php)</li><li class="phpdebugbar-widgets-table-list-item">admin::components.flash-group.item (packages/Webkul/Admin/src/Resources/views/components/flash-group/item.blade.php)</li></ul></td></tr></tbody></table></li><li class="phpdebugbar-widgets-list-item" style="cursor: pointer;"><strong class="phpdebugbar-widgets-module phpdebugbar-widgets-name">Webkul\Core</strong><span title="Queries" class="phpdebugbar-fa phpdebugbar-widgets-queries">0</span><span title="Views" class="phpdebugbar-fa phpdebugbar-widgets-views">1</span><span title="Models" class="phpdebugbar-fa phpdebugbar-widgets-models">0</span><table class="phpdebugbar-widgets-params"><tbody><tr><th colspan="2">Details</th></tr><tr><td class="phpdebugbar-widgets-name">Views</td><td class="phpdebugbar-widgets-value"><ul class="phpdebugbar-widgets-table-list"><li class="phpdebugbar-widgets-table-list-item">core::blade.tracer.style (packages/Webkul/Core/src/Resources/views/blade/tracer/style.blade.php)</li></ul></td></tr></tbody></table></li><li class="phpdebugbar-widgets-list-item" style="cursor: pointer;"><strong class="phpdebugbar-widgets-module phpdebugbar-widgets-name">Webkul\User</strong><span title="Queries" class="phpdebugbar-fa phpdebugbar-widgets-queries">2</span><span title="Views" class="phpdebugbar-fa phpdebugbar-widgets-views">0</span><span title="Models" class="phpdebugbar-fa phpdebugbar-widgets-models">0</span><table class="phpdebugbar-widgets-params"><tbody><tr><th colspan="2">Details</th></tr><tr><td class="phpdebugbar-widgets-name">Queries</td><td class="phpdebugbar-widgets-value"><ul class="phpdebugbar-widgets-table-list"><li class="phpdebugbar-widgets-list-item"><code class="phpdebugbar-widgets-sql"><span class="hljs-keyword">select</span> <span class="hljs-built_in">count</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">as</span> aggregate <span class="hljs-keyword">from</span> `admins`</code><span title="Connection" class="phpdebugbar-widgets-database">unopim_aws_01</span><span title="Duration" class="phpdebugbar-widgets-duration">260ms</span></li><li class="phpdebugbar-widgets-list-item"><code class="phpdebugbar-widgets-sql"><span class="hljs-keyword">select</span> <span class="hljs-built_in">count</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">as</span> aggregate <span class="hljs-keyword">from</span> `admins`</code><span title="Connection" class="phpdebugbar-widgets-database">unopim_aws_01</span><span title="Duration" class="phpdebugbar-widgets-duration">310ms</span></li></ul></td></tr></tbody></table></li></ul></div></div><div class="phpdebugbar-panel" data-collector="messages"><div class="phpdebugbar-widgets-messages"><ul class="phpdebugbar-widgets-list"></ul><div class="phpdebugbar-widgets-toolbar"><i class="phpdebugbar-fa phpdebugbar-fa-search"></i><input type="text" name="search" aria-label="Search" placeholder="Search"><a class="phpdebugbar-widgets-filter" style="visibility: hidden;"></a></div></div></div><div class="phpdebugbar-panel" data-collector="timeline"><ul class="phpdebugbar-widgets-timeline"><li><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="left: 0%; width: 75.34%;"></span><span class="phpdebugbar-widgets-label">Booting (201ms)</span><span class="phpdebugbar-widgets-collector">time</span></div></li><li><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="left: 75.34%; width: 24.66%;"></span><span class="phpdebugbar-widgets-label">Application (65.87ms)</span><span class="phpdebugbar-widgets-collector">time</span></div></li><li><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="left: 79.79%; width: 0.67%;"></span><span class="phpdebugbar-widgets-label">Routing (1.8ms)</span></div></li><li><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="left: 83.21%; width: 9.96%;"></span><span class="phpdebugbar-widgets-label">Preparing Response (26.59ms)</span></div></li><li><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="left: 83.72%; width: 0%;"></span><span class="phpdebugbar-widgets-label">View: admin::users.sessions.create</span><span class="phpdebugbar-widgets-collector">views</span></div></li><li><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="left: 88.49%; width: 0%;"></span><span class="phpdebugbar-widgets-label">View: admin::components.form.control-group.label</span><span class="phpdebugbar-widgets-collector">views</span></div></li><li><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="left: 88.66%; width: 0%;"></span><span class="phpdebugbar-widgets-label">View: admin::components.form.control-group.control</span><span class="phpdebugbar-widgets-collector">views</span></div></li><li><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="left: 89.09%; width: 0%;"></span><span class="phpdebugbar-widgets-label">View: admin::components.modal.index</span><span class="phpdebugbar-widgets-collector">views</span></div></li><li><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="left: 89.28%; width: 0%;"></span><span class="phpdebugbar-widgets-label">View: admin::components.form.control-group.error</span><span class="phpdebugbar-widgets-collector">views</span></div></li><li><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="left: 89.43%; width: 0%;"></span><span class="phpdebugbar-widgets-label">View: admin::components.form.control-group.index</span><span class="phpdebugbar-widgets-collector">views</span></div></li><li><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="left: 89.55%; width: 0%;"></span><span class="phpdebugbar-widgets-label">View: admin::components.form.control-group.label</span><span class="phpdebugbar-widgets-collector">views</span></div></li><li><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="left: 89.67%; width: 0%;"></span><span class="phpdebugbar-widgets-label">View: admin::components.form.control-group.control</span><span class="phpdebugbar-widgets-collector">views</span></div></li><li><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="left: 90.28%; width: 0%;"></span><span class="phpdebugbar-widgets-label">View: admin::components.form.control-group.error</span><span class="phpdebugbar-widgets-collector">views</span></div></li><li><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="left: 90.45%; width: 0%;"></span><span class="phpdebugbar-widgets-label">View: admin::components.form.control-group.index</span><span class="phpdebugbar-widgets-collector">views</span></div></li><li><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="left: 90.61%; width: 0%;"></span><span class="phpdebugbar-widgets-label">View: admin::components.form.index</span><span class="phpdebugbar-widgets-collector">views</span></div></li><li><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="left: 90.87%; width: 0%;"></span><span class="phpdebugbar-widgets-label">View: admin::components.layouts.anonymous</span><span class="phpdebugbar-widgets-collector">views</span></div></li><li><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="left: 92.3%; width: 0%;"></span><span class="phpdebugbar-widgets-label">View: core::blade.tracer.style</span><span class="phpdebugbar-widgets-collector">views</span></div></li><li><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="left: 92.4%; width: 0%;"></span><span class="phpdebugbar-widgets-label">View: aws::icon-style</span><span class="phpdebugbar-widgets-collector">views</span></div></li><li><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="left: 92.63%; width: 0%;"></span><span class="phpdebugbar-widgets-label">View: admin::components.flash-group.index</span><span class="phpdebugbar-widgets-collector">views</span></div></li><li><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="left: 92.76%; width: 0%;"></span><span class="phpdebugbar-widgets-label">View: admin::components.flash-group.item</span><span class="phpdebugbar-widgets-collector">views</span></div></li><li><table class="phpdebugbar-widgets-params"><tr><td class="phpdebugbar-widgets-name">1 x Booting (75.34%)</td><td class="phpdebugbar-widgets-value"><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="width: 75.34%;"></span><span class="phpdebugbar-widgets-label">201ms</span></div></td></tr><tr><td class="phpdebugbar-widgets-name">1 x Application (24.66%)</td><td class="phpdebugbar-widgets-value"><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="width: 24.66%;"></span><span class="phpdebugbar-widgets-label">65.87ms</span></div></td></tr><tr><td class="phpdebugbar-widgets-name">1 x Preparing Response (9.96%)</td><td class="phpdebugbar-widgets-value"><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="width: 9.96%;"></span><span class="phpdebugbar-widgets-label">26.59ms</span></div></td></tr><tr><td class="phpdebugbar-widgets-name">1 x Routing (0.67%)</td><td class="phpdebugbar-widgets-value"><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="width: 0.67%;"></span><span class="phpdebugbar-widgets-label">1.80ms</span></div></td></tr><tr><td class="phpdebugbar-widgets-name">16 x View (0%)</td><td class="phpdebugbar-widgets-value"><div class="phpdebugbar-widgets-measure"><span class="phpdebugbar-widgets-value" style="width: 0%;"></span><span class="phpdebugbar-widgets-label">0μs</span></div></td></tr></table></li></ul></div><div class="phpdebugbar-panel" data-collector="exceptions"><div class="phpdebugbar-widgets-exceptions"><ul class="phpdebugbar-widgets-list"></ul></div></div><div class="phpdebugbar-panel" data-collector="views"><div class="phpdebugbar-widgets-templates"><div class="phpdebugbar-widgets-status"><span>16 templates were rendered</span></div><ul class="phpdebugbar-widgets-list"><li class="phpdebugbar-widgets-list-item"><span class="phpdebugbar-widgets-name">admin::users.sessions.create</span><span class="phpdebugbar-widgets-filename">create.blade.php#?<a href="phpstorm://open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fusers%2Fsessions%2Fcreate.blade.php&amp;line=1" class="phpdebugbar-widgets-editor-link"></a></span><span title="Parameter count" class="phpdebugbar-widgets-param-count"></span><span title="Type" class="phpdebugbar-widgets-type">blade</span></li><li class="phpdebugbar-widgets-list-item"><span class="phpdebugbar-widgets-name">admin::components.form.control-group.label</span><span class="phpdebugbar-widgets-filename">label.blade.php#?<a href="phpstorm://open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fform%2Fcontrol-group%2Flabel.blade.php&amp;line=1" class="phpdebugbar-widgets-editor-link"></a></span><span title="Parameter count" class="phpdebugbar-widgets-param-count"></span><span title="Type" class="phpdebugbar-widgets-type">blade</span></li><li class="phpdebugbar-widgets-list-item"><span class="phpdebugbar-widgets-name">admin::components.form.control-group.control</span><span class="phpdebugbar-widgets-filename">control.blade.php#?<a href="phpstorm://open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fform%2Fcontrol-group%2Fcontrol.blade.php&amp;line=1" class="phpdebugbar-widgets-editor-link"></a></span><span title="Parameter count" class="phpdebugbar-widgets-param-count"></span><span title="Type" class="phpdebugbar-widgets-type">blade</span></li><li class="phpdebugbar-widgets-list-item"><span class="phpdebugbar-widgets-name">admin::components.modal.index</span><span class="phpdebugbar-widgets-filename">index.blade.php#?<a href="phpstorm://open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fmodal%2Findex.blade.php&amp;line=1" class="phpdebugbar-widgets-editor-link"></a></span><span title="Parameter count" class="phpdebugbar-widgets-param-count"></span><span title="Type" class="phpdebugbar-widgets-type">blade</span></li><li class="phpdebugbar-widgets-list-item"><span class="phpdebugbar-widgets-name">admin::components.form.control-group.error</span><span class="phpdebugbar-widgets-filename">error.blade.php#?<a href="phpstorm://open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fform%2Fcontrol-group%2Ferror.blade.php&amp;line=1" class="phpdebugbar-widgets-editor-link"></a></span><span title="Parameter count" class="phpdebugbar-widgets-param-count"></span><span title="Type" class="phpdebugbar-widgets-type">blade</span></li><li class="phpdebugbar-widgets-list-item"><span class="phpdebugbar-widgets-name">admin::components.form.control-group.index</span><span class="phpdebugbar-widgets-filename">index.blade.php#?<a href="phpstorm://open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fform%2Fcontrol-group%2Findex.blade.php&amp;line=1" class="phpdebugbar-widgets-editor-link"></a></span><span title="Parameter count" class="phpdebugbar-widgets-param-count"></span><span title="Type" class="phpdebugbar-widgets-type">blade</span></li><li class="phpdebugbar-widgets-list-item"><span class="phpdebugbar-widgets-name">admin::components.form.control-group.label</span><span class="phpdebugbar-widgets-filename">label.blade.php#?<a href="phpstorm://open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fform%2Fcontrol-group%2Flabel.blade.php&amp;line=1" class="phpdebugbar-widgets-editor-link"></a></span><span title="Parameter count" class="phpdebugbar-widgets-param-count"></span><span title="Type" class="phpdebugbar-widgets-type">blade</span></li><li class="phpdebugbar-widgets-list-item"><span class="phpdebugbar-widgets-name">admin::components.form.control-group.control</span><span class="phpdebugbar-widgets-filename">control.blade.php#?<a href="phpstorm://open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fform%2Fcontrol-group%2Fcontrol.blade.php&amp;line=1" class="phpdebugbar-widgets-editor-link"></a></span><span title="Parameter count" class="phpdebugbar-widgets-param-count"></span><span title="Type" class="phpdebugbar-widgets-type">blade</span></li><li class="phpdebugbar-widgets-list-item"><span class="phpdebugbar-widgets-name">admin::components.form.control-group.error</span><span class="phpdebugbar-widgets-filename">error.blade.php#?<a href="phpstorm://open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fform%2Fcontrol-group%2Ferror.blade.php&amp;line=1" class="phpdebugbar-widgets-editor-link"></a></span><span title="Parameter count" class="phpdebugbar-widgets-param-count"></span><span title="Type" class="phpdebugbar-widgets-type">blade</span></li><li class="phpdebugbar-widgets-list-item"><span class="phpdebugbar-widgets-name">admin::components.form.control-group.index</span><span class="phpdebugbar-widgets-filename">index.blade.php#?<a href="phpstorm://open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fform%2Fcontrol-group%2Findex.blade.php&amp;line=1" class="phpdebugbar-widgets-editor-link"></a></span><span title="Parameter count" class="phpdebugbar-widgets-param-count"></span><span title="Type" class="phpdebugbar-widgets-type">blade</span></li><li class="phpdebugbar-widgets-list-item"><span class="phpdebugbar-widgets-name">admin::components.form.index</span><span class="phpdebugbar-widgets-filename">index.blade.php#?<a href="phpstorm://open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fform%2Findex.blade.php&amp;line=1" class="phpdebugbar-widgets-editor-link"></a></span><span title="Parameter count" class="phpdebugbar-widgets-param-count"></span><span title="Type" class="phpdebugbar-widgets-type">blade</span></li><li class="phpdebugbar-widgets-list-item"><span class="phpdebugbar-widgets-name">admin::components.layouts.anonymous</span><span class="phpdebugbar-widgets-filename">anonymous.blade.php#?<a href="phpstorm://open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Flayouts%2Fanonymous.blade.php&amp;line=1" class="phpdebugbar-widgets-editor-link"></a></span><span title="Parameter count" class="phpdebugbar-widgets-param-count"></span><span title="Type" class="phpdebugbar-widgets-type">blade</span></li><li class="phpdebugbar-widgets-list-item"><span class="phpdebugbar-widgets-name">core::blade.tracer.style</span><span class="phpdebugbar-widgets-filename">style.blade.php#?<a href="phpstorm://open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FCore%2Fsrc%2FResources%2Fviews%2Fblade%2Ftracer%2Fstyle.blade.php&amp;line=1" class="phpdebugbar-widgets-editor-link"></a></span><span title="Parameter count" class="phpdebugbar-widgets-param-count"></span><span title="Type" class="phpdebugbar-widgets-type">blade</span></li><li class="phpdebugbar-widgets-list-item"><span class="phpdebugbar-widgets-name">aws::icon-style</span><span class="phpdebugbar-widgets-filename">icon-style.blade.php#?<a href="phpstorm://open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAWSIntegration%2Fsrc%2FResources%2Fviews%2Ficon-style.blade.php&amp;line=1" class="phpdebugbar-widgets-editor-link"></a></span><span title="Parameter count" class="phpdebugbar-widgets-param-count"></span><span title="Type" class="phpdebugbar-widgets-type">blade</span></li><li class="phpdebugbar-widgets-list-item"><span class="phpdebugbar-widgets-name">admin::components.flash-group.index</span><span class="phpdebugbar-widgets-filename">index.blade.php#?<a href="phpstorm://open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fflash-group%2Findex.blade.php&amp;line=1" class="phpdebugbar-widgets-editor-link"></a></span><span title="Parameter count" class="phpdebugbar-widgets-param-count"></span><span title="Type" class="phpdebugbar-widgets-type">blade</span></li><li class="phpdebugbar-widgets-list-item"><span class="phpdebugbar-widgets-name">admin::components.flash-group.item</span><span class="phpdebugbar-widgets-filename">item.blade.php#?<a href="phpstorm://open?file=%2Fhome%2Fusers%2Fsandeep.prajapati%2FDesktop%2Funopim_test%2Funopim%2Fpackages%2FWebkul%2FAdmin%2Fsrc%2FResources%2Fviews%2Fcomponents%2Fflash-group%2Fitem.blade.php&amp;line=1" class="phpdebugbar-widgets-editor-link"></a></span><span title="Parameter count" class="phpdebugbar-widgets-param-count"></span><span title="Type" class="phpdebugbar-widgets-type">blade</span></li></ul><div class="phpdebugbar-widgets-callgraph"></div></div></div><div class="phpdebugbar-panel" data-collector="queries"><div class="phpdebugbar-widgets-sqlqueries"><div class="phpdebugbar-widgets-status"><span>0 statements were executed</span><span title="Accumulated duration" class="phpdebugbar-widgets-duration">0μs</span></div><ul class="phpdebugbar-widgets-list"></ul></div></div><div class="phpdebugbar-panel" data-collector="models"><div class="phpdebugbar-widgets-tablevarlist"><table class="phpdebugbar-widgets-tablevar"><tr class="phpdebugbar-widgets-header"><td></td><td>Retrieved</td><td>Created</td><td>Updated</td><td>Deleted</td></tr></table></div></div><div class="phpdebugbar-panel" data-collector="emails"><div class="phpdebugbar-widgets-mails"><ul class="phpdebugbar-widgets-list"></ul></div></div><div class="phpdebugbar-panel" data-collector="gate"><div class="phpdebugbar-widgets-messages"><ul class="phpdebugbar-widgets-list"></ul><div class="phpdebugbar-widgets-toolbar"><i class="phpdebugbar-fa phpdebugbar-fa-search"></i><input type="text" name="search" aria-label="Search" placeholder="Search"><a class="phpdebugbar-widgets-filter" style="visibility: hidden;"></a></div></div></div><div class="phpdebugbar-panel" data-collector="__datasets"><div class="phpdebugbar-widgets-dataset-history"><div class="phpdebugbar-widgets-dataset-actions"><label>Autoshow<input type="checkbox"></label><a>Clear</a><a>Show all</a><select name="method" style="width:100px"><option>(method)</option><option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option></select><input type="text" name="search" aria-label="Search" placeholder="Search"></div><table><thead><tr><th style="width: 30px;"></th><th style="width: 175px;">Date ↕</th><th style="width: 80px;">Method</th><th>URL</th><th width="40%">Data</th></tr></thead><tbody><tr data-id="01KP80XXA7ZCSD6BBTK2GK2NM7" class="phpdebugbar-widgets-table-row" style="cursor: pointer;"><td>#1</td><td>2026-04-15 07:33:12</td><td>GET</td><td>/admin/dashboard (stacked)</td><td><a title="Modules"><i class="phpdebugbar-fa phpdebugbar-fa-cubes"></i><span class="phpdebugbar-badge" style="display: inline-block;">1</span></a></td></tr><tr data-id="01KP80XXJP24WYV39XP4PT2Y1H" class="phpdebugbar-widgets-table-row phpdebugbar-widgets-active" style="cursor: pointer;"><td>#2</td><td>2026-04-15 07:33:12</td><td>GET</td><td>/admin/login</td><td><a title="Modules"><i class="phpdebugbar-fa phpdebugbar-fa-cubes"></i><span class="phpdebugbar-badge phpdebugbar-visible" style="display: inline-block;">3</span></a><a title="Views"><i class="phpdebugbar-fa phpdebugbar-fa-leaf"></i><span class="phpdebugbar-badge phpdebugbar-visible" style="display: inline-block;">16</span></a></td></tr></tbody></table></div></div></div><a class="phpdebugbar-restore-btn" style="display: none;"></a></div><div class="phpdebugbar-openhandler" data-theme="light" style="display: none;"><div class="phpdebugbar-openhandler-header">PHP DebugBar | Open<a><i class="phpdebugbar-fa phpdebugbar-fa-times"></i></a></div><table><thead><tr><th width="155">Date</th><th width="75">Method</th><th>URL</th><th width="125">IP</th><th width="100">Filter data</th></tr></thead><tbody></tbody></table><div class="phpdebugbar-openhandler-actions"><a>Load more</a><a>Show only current URL</a><a>Show all</a><a>Delete all</a><form><br><b>Filter results</b><br><select name="method"><option selected="">(Method)</option><option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option></select><input type="text" name="uri" placeholder="URI"><input type="text" name="ip" placeholder="IP"><button type="submit">Search</button></form></div></div><div class="phpdebugbar-openhandler-overlay" style="display: none;"></div>
+
+
+
+</body></html>

@@ -5,6 +5,7 @@ use Webkul\AdminApi\Providers\AdminApiServiceProvider;
 use Webkul\AiAgent\Providers\AiAgentServiceProvider;
 use Webkul\AppUrlGuard\Providers\AppUrlGuardServiceProvider;
 use Webkul\Attribute\Providers\AttributeServiceProvider;
+use Webkul\AWSIntegration\Providers\AWSIntegrationServiceProvider;
 use Webkul\Category\Providers\CategoryServiceProvider;
 use Webkul\Completeness\Providers\CompletenessServiceProvider;
 use Webkul\Core\Providers\CoreServiceProvider;
@@ -23,8 +24,6 @@ use Webkul\Product\Providers\ProductServiceProvider;
 use Webkul\Theme\Providers\ThemeServiceProvider;
 use Webkul\User\Providers\UserServiceProvider;
 use Webkul\Webhook\Providers\WebhookServiceProvider;
-use Webkul\AWSIntegration\Providers\AWSIntegrationServiceProvider;
-
 
 return [
     /*

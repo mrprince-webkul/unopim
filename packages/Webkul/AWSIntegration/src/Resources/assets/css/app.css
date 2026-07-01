@@ -1,0 +1,18 @@
+@font-face {
+    font-family: "AwsS3-Integration-icon";
+    src: url("../fonts/unopim-aws-a2989ca1.woff?jwnnow") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+span.icon-AwsS3 {
+    font-family: "AwsS3-Integration-icon" !important;
+}
+
+.icon-AwsS3 {
+    font-family: "AwsS3-Integration-icon" !important;
+}
+.icon-AwsS3:before {
+    content: "\e900";
+}

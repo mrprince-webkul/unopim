@@ -1,0 +1,11 @@
+{
+  "src/Resources/assets/css/app.css": {
+    "file": "assets/app-beb1f90a.css",
+    "isEntry": true,
+    "src": "src/Resources/assets/css/app.css"
+  },
+  "src/Resources/assets/fonts/unopim-aws.woff": {
+    "file": "assets/unopim-aws-a2989ca1.woff",
+    "src": "src/Resources/assets/fonts/unopim-aws.woff"
+  }
+}
