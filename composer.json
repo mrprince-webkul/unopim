@@ -83,7 +83,8 @@
             "Webkul\\Webhook\\": "packages/Webkul/Webhook/src",
             "Webkul\\Completeness\\": "packages/Webkul/Completeness/src",
             "Webkul\\AiAgent\\": "packages/Webkul/AiAgent/src",
-            "Webkul\\AppUrlGuard\\": "packages/Webkul/AppUrlGuard/src"
+            "Webkul\\AppUrlGuard\\": "packages/Webkul/AppUrlGuard/src",
+            "Webkul\\DAM\\": "packages/Webkul/DAM/src"
         }
     },
     "autoload-dev": {

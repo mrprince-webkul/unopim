@@ -22,6 +22,7 @@ use Webkul\Product\Providers\ProductServiceProvider;
 use Webkul\Theme\Providers\ThemeServiceProvider;
 use Webkul\User\Providers\UserServiceProvider;
 use Webkul\Webhook\Providers\WebhookServiceProvider;
+use Webkul\DAM\Providers\DAMServiceProvider;
 
 return [
     /*
@@ -51,4 +52,5 @@ return [
     CompletenessServiceProvider::class,
     AiAgentServiceProvider::class,
     AppUrlGuardServiceProvider::class,
+    DAMServiceProvider::class,
 ];
