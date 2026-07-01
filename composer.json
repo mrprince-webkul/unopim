@@ -84,7 +84,8 @@
             "Webkul\\Completeness\\": "packages/Webkul/Completeness/src",
             "Webkul\\AiAgent\\": "packages/Webkul/AiAgent/src",
             "Webkul\\AppUrlGuard\\": "packages/Webkul/AppUrlGuard/src",
-            "Webkul\\DAM\\": "packages/Webkul/DAM/src"
+            "Webkul\\DAM\\": "packages/Webkul/DAM/src",
+            "Webkul\\AWSIntegration\\": "packages/Webkul/AWSIntegration/src"
         }
     },
     "autoload-dev": {
@@ -100,7 +101,8 @@
             "Webkul\\Category\\Tests\\": "packages/Webkul/Category/tests",
             "Webkul\\Product\\Tests\\": "packages/Webkul/Product/tests",
             "Webkul\\Attribute\\Tests\\": "packages/Webkul/Attribute/tests",
-            "Webkul\\DataTransfer\\Tests\\": "packages/Webkul/DataTransfer/tests"
+            "Webkul\\DataTransfer\\Tests\\": "packages/Webkul/DataTransfer/tests",
+            "Webkul\\DAM\\Tests\\": "packages/Webkul/DAM/tests"
         }
     },
     "scripts": {

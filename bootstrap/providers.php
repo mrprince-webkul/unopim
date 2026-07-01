@@ -9,6 +9,7 @@ use Webkul\Category\Providers\CategoryServiceProvider;
 use Webkul\Completeness\Providers\CompletenessServiceProvider;
 use Webkul\Core\Providers\CoreServiceProvider;
 use Webkul\Core\Providers\EnvValidatorServiceProvider;
+use Webkul\DAM\Providers\DAMServiceProvider;
 use Webkul\DataGrid\Providers\DataGridServiceProvider;
 use Webkul\DataTransfer\Providers\DataTransferServiceProvider;
 use Webkul\DebugBar\Providers\DebugBarServiceProvider;
@@ -22,7 +23,8 @@ use Webkul\Product\Providers\ProductServiceProvider;
 use Webkul\Theme\Providers\ThemeServiceProvider;
 use Webkul\User\Providers\UserServiceProvider;
 use Webkul\Webhook\Providers\WebhookServiceProvider;
-use Webkul\DAM\Providers\DAMServiceProvider;
+use Webkul\AWSIntegration\Providers\AWSIntegrationServiceProvider;
+
 
 return [
     /*
@@ -53,4 +55,5 @@ return [
     AiAgentServiceProvider::class,
     AppUrlGuardServiceProvider::class,
     DAMServiceProvider::class,
+    AWSIntegrationServiceProvider::class,
 ];

@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "skills": {
+    "unopim-code-review": {
+      "source": "unopim/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/unopim-code-review/SKILL.md",
+      "computedHash": "4365ffbc618d4d766d6b98a230f6917edb9a38c8813ddc60b29af7981642186a"
+    },
+    "unopim-data-transfer": {
+      "source": "unopim/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/unopim-data-transfer/SKILL.md",
+      "computedHash": "136781176e81038e4625be514849c7dfb94df08d9be5a5b177d1099a22b15914"
+    },
+    "unopim-datagrid": {
+      "source": "unopim/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/unopim-datagrid/SKILL.md",
+      "computedHash": "49e9d95d0403c459d1ffd25eef04e66a63be194d12415f6d5a175a34ab950fa7"
+    },
+    "unopim-dev-cycle": {
+      "source": "unopim/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/unopim-dev-cycle/SKILL.md",
+      "computedHash": "1c1c87d9588cd693d2222230512896f939b7461801a5ae1c7098475252f43365"
+    },
+    "unopim-git": {
+      "source": "unopim/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/unopim-git/SKILL.md",
+      "computedHash": "4c405eb1d774de32ab836f15f189706a21a19fd173eb7b8e754758d9512e07c4"
+    },
+    "unopim-plugin-development": {
+      "source": "unopim/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/unopim-plugin-development/SKILL.md",
+      "computedHash": "10466a38ca3b8519d24a71d6e298232860bb00bee348adc014f3b269d836353f"
+    }
+  }
+}
