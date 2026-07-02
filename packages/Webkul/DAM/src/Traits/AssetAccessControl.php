@@ -1,0 +1,59 @@
+<?php
+
+namespace Webkul\DAM\Traits;
+
+use Webkul\DAM\Models\Asset;
+use Webkul\DAM\Services\DirectoryPermissionService;
+
+/** Per-asset directory ACL gate. Layered on top of bouncer() — both the route ACL and. */
+trait AssetAccessControl
+{
+    protected function damPermissionService(): DirectoryPermissionService
+    {
+        return app(DirectoryPermissionService::class);
+    }
+
+    /**
+     * Resolve an asset's containing directory id (asset → dam_asset_directory pivot).
+     */
+    protected function damAssetDirectoryId(?Asset $asset): ?int
+    {
+        if (! $asset) {
+            return null;
+        }
+
+        $dirId = $asset->directories()->value('dam_directories.id');
+
+        return $dirId ? (int) $dirId : null;
+    }
+
+    /**
+     * Returns true when the current admin can act on the given asset id based.
+     */
+    protected function damCanAccessAsset(int $assetId): bool
+    {
+        $service = $this->damPermissionService();
+
+        if ($service->bypass()) {
+            return true;
+        }
+
+        $dirId = $this->damAssetDirectoryId(Asset::find($assetId));
+
+        if ($dirId === null) {
+            return false;
+        }
+
+        return $service->canAccess($dirId);
+    }
+
+    /**
+     * Abort 403 if the current admin cannot act on the given asset id.
+     */
+    protected function damAuthorizeAsset(int $assetId): void
+    {
+        if (! $this->damCanAccessAsset($assetId)) {
+            abort(403, trans('dam::app.admin.permissions.unauthorized'));
+        }
+    }
+}
