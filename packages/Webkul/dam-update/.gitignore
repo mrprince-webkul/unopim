@@ -1,0 +1,15 @@
+.env
+node_modules/
+.next/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+dist/
+build/
+uploads/*
+!uploads/.gitkeep
+.DS_Store
+*.log

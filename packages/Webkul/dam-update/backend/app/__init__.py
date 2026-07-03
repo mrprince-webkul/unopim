@@ -1,0 +1,1 @@
+"""DevAnnounce backend application package."""
